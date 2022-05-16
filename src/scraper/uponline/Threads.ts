@@ -86,7 +86,7 @@ export default class Threads extends Base {
         const body = $('.post-content-container').first().html();
         const sentAt = Util.getTimeAgo(when);
 
-        let { markdown, images } = h2m(body);
+        const { markdown, images } = h2m(body);
         for (let i = 0; i < images.length; i++)
             (images[i] as Image).base64 = await Util.downloadImage(
                 this.page,

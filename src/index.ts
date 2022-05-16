@@ -13,11 +13,13 @@ const client = new MaclaryClient({
     developmentPrefix: 'd;',
     logger: new Loggr({ timestampFormat: 'YYYY/MM/DD HH:mm:ss' }),
     presence: {
-        activities: [{
-            name: 'the LMS for updates',
-            type: ActivityType.Watching,
-        }],
-    }
+        activities: [
+            {
+                name: 'the LMS for updates',
+                type: ActivityType.Watching,
+            },
+        ],
+    },
 });
 
 container.client = client;

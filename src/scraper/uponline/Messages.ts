@@ -85,12 +85,12 @@ export default class Messages extends Base {
 
         const promises = elements.map((e) => e.evaluate((e) => e.innerText));
         const texts = await Promise.all(promises);
-        const cleaned = texts.map((t) => t.trim().replace(/  /, ''));
+        const cleaned = texts.map((t) => t.trim().replace(/ {2}/, ''));
         const splited = cleaned.map((t) => t.split('\n').filter(Boolean));
 
         const groups = splited.map((rest) => {
             const title = rest.shift() as string;
-            let isTrainer = rest[0] === 'Trainer';
+            const isTrainer = rest[0] === 'Trainer';
             return { title, isTrainer };
         });
 

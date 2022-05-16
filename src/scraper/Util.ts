@@ -23,8 +23,8 @@ export default class Util extends null {
     /** Get all cookies from a page and save to a file */
     static async saveCookies(page: Page): Promise<void> {
         const domains = [
-            'https://' + Uponline.Domain,
-            'https://login.' + Microsoft.Domain,
+            `https://${Uponline.Domain}`,
+            `https://login.${Microsoft.Domain}`,
         ];
         const cookies = await page.cookies(...domains);
         fs.writeFileSync(CookieFile, JSON.stringify(cookies));
@@ -60,7 +60,8 @@ export default class Util extends null {
         ].map((r) => when.match(r));
 
         if (seconds) now.setSeconds(now.getSeconds() - parseInt(seconds[1]));
-        else if (minutes) now.setMinutes(now.getMinutes() - parseInt(minutes[1]));
+        else if (minutes)
+            now.setMinutes(now.getMinutes() - parseInt(minutes[1]));
         else if (hours) now.setHours(now.getHours() - parseInt(hours[1]));
         else if (days) now.setDate(now.getDate() - parseInt(days[1]));
         else if (months) now.setMonth(now.getMonth() - parseInt(months[1]));

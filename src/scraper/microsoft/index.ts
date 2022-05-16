@@ -18,7 +18,7 @@ export default class Microsoft extends Base {
 
     /** Check if the current page is the Microsoft login */
     public get isOnLoginPage(): boolean {
-        return this.page.url().includes('login.' + Domain);
+        return this.page.url().includes(`login.${Domain}`);
     }
 
     /** Attempt to login to the Microsoft */
@@ -33,7 +33,7 @@ export default class Microsoft extends Base {
         await this.page.keyboard.type(Email);
         await this.page.click('[id=idSIButton9]');
         await this.page.waitForTimeout(3000);
-        
+
         // Input the password
         await this.page.click('[id=i0118]');
         await this.page.keyboard.type(Password);

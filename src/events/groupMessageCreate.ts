@@ -25,7 +25,7 @@ export default class GroupMessage extends Event {
             message.author === TrainerName ? `<@&${MentionID}>` : null;
 
         const embed = new EmbedBuilder()
-            .setDescription(header + '\n\n' + Util.cleanString(message.content))
+            .setDescription(`${header}\n\n${Util.cleanString(message.content)}`)
             .setColor(0xea4f3d)
             .setTimestamp(message.sentAt);
 

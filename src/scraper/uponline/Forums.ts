@@ -69,7 +69,7 @@ export default class Forums extends Base {
         const url = `https://uponline.education/mod/forum/view.php?id=${forum.id}`;
         await this.page.goto(url);
         await this.page.waitForTimeout(3000);
-        
+
         this.openedForum = forum.id;
         // When navigating to a new page, the message panel hides, reopen it
         await this.uponline.reset(this);
@@ -78,12 +78,14 @@ export default class Forums extends Base {
     /** Produce a list of threads in a forum */
     public async listThreads(): Promise<PartialThread[]> {
         if (!this.openedForum) throw new Error('Forum not opened');
-        const page = this.client.page;
+        const { page } = this.client;
 
         async function getInfos() {
-            let elements = await page.$$('[id="first-post-author-image"]');
-            let promises = elements.map((e) => e.evaluate((n) => n.innerText));
-            let texts = await Promise.all(promises);
+            const elements = await page.$$('[id="first-post-author-image"]');
+            const promises = elements.map((e) =>
+                e.evaluate((n) => n.innerText),
+            );
+            const texts = await Promise.all(promises);
             return texts.map((t) =>
                 t
                     .split('\n')
@@ -93,15 +95,19 @@ export default class Forums extends Base {
         }
 
         async function getIds() {
-            let elements = await page.$$('[id="first-post-author-image"]');
-            let promises = elements.map((e) => e.evaluate((n) => n.innerHTML));
-            let texts = await Promise.all(promises);
+            const elements = await page.$$('[id="first-post-author-image"]');
+            const promises = elements.map((e) =>
+                e.evaluate((n) => n.innerHTML),
+            );
+            const texts = await Promise.all(promises);
             return texts.map((t) => t.match(/discuss.php\?d=(\d+)/)[1]);
         }
 
         async function getDates() {
-            let elements = await page.$$('[id="last-post-ago"]');
-            let promises = elements.map((e) => e.evaluate((n) => n.innerText));
+            const elements = await page.$$('[id="last-post-ago"]');
+            const promises = elements.map((e) =>
+                e.evaluate((n) => n.innerText),
+            );
             return Promise.all(promises);
         }
 

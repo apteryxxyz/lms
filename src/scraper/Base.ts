@@ -31,7 +31,7 @@ export default abstract class Base {
     }
 
     /** Take of a screenshot of the current page as a way to debug */
-    public async debug(path: string = 'debug'): Promise<void> {
+    public async debug(path = 'debug'): Promise<void> {
         path += '.png';
         await this.page?.screenshot({ path });
         // this.log(`Screenshot saved to '${path}'`);

@@ -110,7 +110,8 @@ export default class Scraper extends EventEmitter {
         // Send the events for each new thread
         for (const thread of sortedThreads) {
             const handlers = this.listeners(Events.ThreadCreate);
-            for (const listener of handlers) await listener(thread.forum, thread);
+            for (const listener of handlers)
+                await listener(thread.forum, thread);
         }
     }
 

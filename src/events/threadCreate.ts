@@ -36,7 +36,7 @@ export default class ThreadCreate extends Event {
 
         const embed = new EmbedBuilder()
             .setTitle(thread.title)
-            .setDescription(header + '\n\n' + Util.cleanString(thread.content))
+            .setDescription(`${header}\n\n${Util.cleanString(thread.content)}`)
             .setColor(0xea4f3d)
             .setTimestamp(thread.sentAt)
             .setImage(files.length === 1 ? 'attachment://0.png' : null);

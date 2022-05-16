@@ -36,14 +36,14 @@ export default class Uponline extends Base {
 
     /** Check if the current page is the LMS login page */
     public get isOnLoginPage(): boolean {
-        return this.page.url().includes(Domain + '/go');
+        return this.page.url().includes(`${Domain}/go`);
     }
 
     /** Check if the current page is the LMS course page */
     public get isOnCoursePage(): boolean {
         return (
-            this.page.url().includes(Domain + '/course') ||
-            this.page.url().includes(Domain + '/mod')
+            this.page.url().includes(`${Domain}/course`) ||
+            this.page.url().includes(`${Domain}/mod`)
         );
     }
 
