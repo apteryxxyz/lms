@@ -20,18 +20,18 @@ export default abstract class Base {
     }
 
     /** Force the client to wait a number of milliseconds */
-    public wait(ms: number) {
+    public wait(ms: number): Promise<void> {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
     /** Log a message to the console, with a timestamp */
-    public log(message: string) {
+    public log(message: string): void {
         // console.log(`[${new Date().toISOString()}] ${message}`);
         container.logger.info(message);
     }
 
     /** Take of a screenshot of the current page as a way to debug */
-    public async debug(path: string = 'debug') {
+    public async debug(path: string = 'debug'): Promise<void> {
         path += '.png';
         await this.page?.screenshot({ path });
         // this.log(`Screenshot saved to '${path}'`);

@@ -51,7 +51,7 @@ export default class Forums extends Base {
     }
 
     /** Reset this handler */
-    public async reset() {
+    public async reset(): Promise<void> {
         this.openedForum = undefined;
         this.visibleThreads = undefined;
     }

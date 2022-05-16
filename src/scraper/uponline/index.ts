@@ -28,7 +28,7 @@ export default class Uponline extends Base {
     }
 
     /** Reset all the handlers */
-    public async reset(source?: Base) {
+    public async reset(source?: Base): Promise<void> {
         if (source !== this.messages) await this.messages.reset();
         if (source !== this.forums) await this.forums.reset();
         if (source !== this.threads) await this.threads.reset();

@@ -27,7 +27,7 @@ export default class Scraper extends EventEmitter {
     }
 
     /** Setup the cron job */
-    public async setup() {
+    public async setup(): Promise<void> {
         this.job = schedule.scheduleJob(CronExpression, () => this.process());
         container.logger.info('Scheduled scraper job');
     }

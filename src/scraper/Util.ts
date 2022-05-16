@@ -13,7 +13,7 @@ const MonthsAgo = /(\d+) months? ago/;
 
 export default class Util extends null {
     /** Load cookies from a file and save to page */
-    static async loadCookies(page: Page) {
+    static async loadCookies(page: Page): Promise<void> {
         const string = fs.readFileSync(CookieFile, 'utf8');
         const cookies = JSON.parse(string);
         await page.setCookie(...cookies);
@@ -21,7 +21,7 @@ export default class Util extends null {
     }
 
     /** Get all cookies from a page and save to a file */
-    static async saveCookies(page: Page) {
+    static async saveCookies(page: Page): Promise<void> {
         const domains = [
             'https://' + Uponline.Domain,
             'https://login.' + Microsoft.Domain,

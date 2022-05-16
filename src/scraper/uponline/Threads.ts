@@ -40,7 +40,7 @@ export default class Threads extends Base {
         this.uponline = uponline;
     }
 
-    public async reset() {
+    public async reset(): Promise<void> {
         this.openedThread = undefined;
     }
 
