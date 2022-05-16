@@ -42,7 +42,7 @@ export interface PartialThread {
 
 export default class Forums extends Base {
     /** List of forums */
-    static List = ForumsList;
+    public static List = ForumsList;
     /** List of forums */
     public List = ForumsList;
     /** Uponline handler */
@@ -58,7 +58,7 @@ export default class Forums extends Base {
     }
 
     /** Reset this handler */
-    public async reset(): Promise<void> {
+    public reset(): void {
         this.openedForum = undefined;
         this.visibleThreads = undefined;
     }
@@ -113,7 +113,7 @@ export default class Forums extends Base {
 
         const infos = await getInfos();
         const ids = await getIds();
-        const dates = (await getDates()).map(Util.getTimeAgo);
+        const dates = (await getDates()).map((d) => Util.getTimeAgo(d));
 
         return (this.visibleThreads = infos
             .map((info, i) => ({

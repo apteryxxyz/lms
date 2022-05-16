@@ -56,7 +56,7 @@ export default class Threads extends Base {
     }
 
     /** Reset this handler */
-    public async reset(): Promise<void> {
+    public reset(): void {
         this.openedThread = undefined;
     }
 
@@ -87,10 +87,10 @@ export default class Threads extends Base {
         const sentAt = Util.getTimeAgo(when);
 
         const { markdown, images } = h2m(body);
-        for (let i = 0; i < images.length; i++)
-            (images[i] as Image).base64 = await Util.downloadImage(
+        for (const image of images)
+            (image as Image).base64 = await Util.downloadImage(
                 this.page,
-                images[i].src,
+                image.src,
             );
         const responses = await this.getThreadResponses();
 

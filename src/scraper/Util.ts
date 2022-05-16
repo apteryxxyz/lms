@@ -13,7 +13,7 @@ const MonthsAgo = /(\d+) months? ago/;
 
 export default class Util extends null {
     /** Load cookies from a file and save to page */
-    static async loadCookies(page: Page): Promise<void> {
+    public static async loadCookies(page: Page): Promise<void> {
         const string = fs.readFileSync(CookieFile, 'utf8');
         const cookies = JSON.parse(string);
         await page.setCookie(...cookies);
@@ -21,7 +21,7 @@ export default class Util extends null {
     }
 
     /** Get all cookies from a page and save to a file */
-    static async saveCookies(page: Page): Promise<void> {
+    public static async saveCookies(page: Page): Promise<void> {
         const domains = [
             `https://${Uponline.Domain}`,
             `https://login.${Microsoft.Domain}`,
@@ -32,7 +32,10 @@ export default class Util extends null {
     }
 
     /** Download an image from within a page */
-    static async downloadImage(page: Page, url: string): Promise<string> {
+    public static async downloadImage(
+        page: Page,
+        url: string,
+    ): Promise<string> {
         const base64 = await page.evaluate(async (url) => {
             const response = await fetch(url);
             const blob = await response.blob();
@@ -46,7 +49,7 @@ export default class Util extends null {
     }
 
     /** Get the date for a when string */
-    static getTimeAgo(when: string): Date {
+    public static getTimeAgo(when: string): Date {
         let now = new Date();
         now = new Date(
             `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
@@ -59,17 +62,18 @@ export default class Util extends null {
             MonthsAgo,
         ].map((r) => when.match(r));
 
-        if (seconds) now.setSeconds(now.getSeconds() - parseInt(seconds[1]));
+        if (seconds)
+            now.setSeconds(now.getSeconds() - parseInt(seconds[1], 10));
         else if (minutes)
-            now.setMinutes(now.getMinutes() - parseInt(minutes[1]));
-        else if (hours) now.setHours(now.getHours() - parseInt(hours[1]));
-        else if (days) now.setDate(now.getDate() - parseInt(days[1]));
-        else if (months) now.setMonth(now.getMonth() - parseInt(months[1]));
+            now.setMinutes(now.getMinutes() - parseInt(minutes[1], 10));
+        else if (hours) now.setHours(now.getHours() - parseInt(hours[1], 10));
+        else if (days) now.setDate(now.getDate() - parseInt(days[1], 10));
+        else if (months) now.setMonth(now.getMonth() - parseInt(months[1], 10));
         return now;
     }
 
     /** Clean a string */
-    static cleanString(str: string): string {
+    public static cleanString(str: string): string {
         str = str.replace(/\n+/g, '\n\n');
         str = str.replaceAll('\n**\n', '\n**');
         return str;

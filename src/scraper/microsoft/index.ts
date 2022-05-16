@@ -6,7 +6,7 @@ const Domain = 'microsoftonline.com';
 
 export default class Microsoft extends Base {
     /** Microsoft domain */
-    static Domain = Domain;
+    public static Domain = Domain;
     /** Microsoft domain */
     public Domain = Domain;
     /** Whether the client has logged into Microsoft */

@@ -30,7 +30,7 @@ export default class Scraper extends EventEmitter {
     }
 
     /** Setup the cron job */
-    public async setup(): Promise<void> {
+    public setup(): void {
         this.job = schedule.scheduleJob(CronExpression, () => this.process());
         container.logger.info('Scheduled scraper job');
     }
@@ -50,7 +50,7 @@ export default class Scraper extends EventEmitter {
     /** Stop the client */
     public async stop(): Promise<void> {
         clearInterval(this.debug);
-        this.client?.browser.close();
+        await this.client?.browser.close();
         this.client = undefined;
     }
 

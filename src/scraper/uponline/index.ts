@@ -8,7 +8,7 @@ const Domain = 'uponline.education';
 
 export default class Uponline extends Base {
     /** Uponline domain */
-    static Domain = Domain;
+    public static Domain = Domain;
     /** Uponline domain */
     public Domain = Domain;
     /** Messages handler */

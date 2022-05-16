@@ -17,7 +17,7 @@ async function writeFile(path: string, data: string): Promise<void> {
 
 export default class Database extends null {
     /** Get the last saved messages cache for a group */
-    static async getMessages(group: Group): Promise<Message[]> {
+    public static async getMessages(group: Group): Promise<Message[]> {
         const path = `cache/messages/${btoa(group.title)}.json`;
         const content = await readFile(path, '[]');
         const json = JSON.parse(content);
@@ -25,7 +25,7 @@ export default class Database extends null {
     }
 
     /** Save the messages of a group in the cache */
-    static async saveMessages(
+    public static async saveMessages(
         group: Group,
         messages: Message[],
     ): Promise<void> {
@@ -35,7 +35,9 @@ export default class Database extends null {
     }
 
     /** Get the last saved threads list for a forum */
-    static async getForumThreads(forum: Forum): Promise<PartialThread[]> {
+    public static async getForumThreads(
+        forum: Forum,
+    ): Promise<PartialThread[]> {
         const path = `cache/forums/${btoa(forum.id)}.json`;
         const content = await readFile(path, '[]');
         const json = JSON.parse(content);
@@ -43,7 +45,7 @@ export default class Database extends null {
     }
 
     /** Save the partial threads of a forum in cache */
-    static async saveForumThreads(
+    public static async saveForumThreads(
         forum: Forum,
         threads: PartialThread[],
     ): Promise<void> {
@@ -53,7 +55,9 @@ export default class Database extends null {
     }
 
     /** Get the last saved thread content for a thread */
-    static async getThreadContent(thread: PartialThread): Promise<Thread> {
+    public static async getThreadContent(
+        thread: PartialThread,
+    ): Promise<Thread> {
         const path = `cache/threads/${btoa(thread.id)}.json`;
         const content = await readFile(path, '[]');
         const json = JSON.parse(content);
@@ -61,7 +65,7 @@ export default class Database extends null {
     }
 
     /** Save a thread */
-    static async saveThreadContent(thread: Thread): Promise<void> {
+    public static async saveThreadContent(thread: Thread): Promise<void> {
         const path = `cache/threads/${btoa(thread.id)}.json`;
         const content = JSON.stringify(thread, null, 4);
         await writeFile(path, content);
