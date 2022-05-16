@@ -1,0 +1,41 @@
+{
+    "name": "lms",
+    "version": "1.0.0",
+    "description": "Discord bot that scraps the LMS website for notifications",
+    "main": "dist/index.js",
+    "repository": "https://github.com/apteryxxyz/lms",
+    "author": "ApteryxXYZ",
+    "license": "CC-BY-NC-ND-4.0",
+    "private": true,
+    "packageManager": "yarn@3.2.1",
+    "scripts": {
+        "lint": "eslint src --fix",
+        "build": "tsc -p tsconfig.json",
+        "dev": "cross-env NODE_ENV=development ts-node src/index.ts",
+        "start": "pm2 start dist/index.js --name lms",
+        "stop": "pm2 stop lms",
+        "restart": "pm2 restart lms"
+    },
+    "dependencies": {
+        "@types/cheerio": "0.22.0",
+        "@wakeful-cloud/html-translator": "^1.1.1",
+        "cat-loggr": "^1.2.2",
+        "cheerio": "0.22.0",
+        "discord.js": "^14.0.0-dev.1652443445-d522320",
+        "dotenv": "^16.0.1",
+        "fs-extra": "^10.1.0",
+        "maclary": "^0.4.0-dev.1651136883-0d41c06",
+        "moment": "^2.29.3",
+        "node-schedule": "^2.1.0",
+        "puppeteer": "^14.1.0"
+    },
+    "devDependencies": {
+        "@sapphire/eslint-config": "^4.3.4",
+        "@types/fs-extra": "^9.0.13",
+        "@types/node-schedule": "^2.1.0",
+        "cross-env": "^7.0.3",
+        "eslint": "^8.15.0",
+        "prettier": "^2.6.2",
+        "typescript": "^4.6.4"
+    }
+}
