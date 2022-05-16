@@ -21,15 +21,22 @@ const ForumsList = [
 ] as Forum[];
 
 export interface Forum {
+    /** The module this forum belongs to */
     module: string;
-    name: string;
+    /** The id of this forum */
     id: string;
+    /** The name of this forum */
+    name: string;
 }
 
 export interface PartialThread {
+    /** The thread id */
     id: string;
+    /** The title of the thread */
     title: string;
+    /** The author of the thread */
     author: string;
+    /** The approximate time the thread was updated */
     updatedAt: Date;
 }
 

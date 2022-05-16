@@ -5,27 +5,42 @@ import Base from '../Base';
 import type { PartialThread } from './Forums';
 import Util from '../Util';
 
-export interface Image {
-    src: string;
-    alt: string;
-    base64: string;
-}
-
 export interface Thread {
+    /** The threads id */
     id: string;
+    /** The title of the thread */
     title: string;
+    /** The author of the thread */
     author: string;
+    /** The threads content as markdown */
     content: string;
+    /** The approximate time the thread was sent */
     sentAt: Date;
+    /** An array of {@link Image}s the content of this thread included */
     images: Image[];
+    /** An array of {@link Response}s to this thread */
     responses: Response[];
 }
 
+export interface Image {
+    /** The images original src */
+    src: string;
+    /** Alt text for the image */
+    alt: string;
+    /** A base64 representation of the image */
+    base64: string;
+}
+
 export interface Response {
+    /** The title of the response */
     title: string;
+    /** The author of the response */
     author: string;
+    /** The responses content as markdown */
     content: string;
+    /** The approximate time the response was sent */
     sentAt: Date;
+    /** An array of {@link Response}s to this response */
     responses: Response[];
 }
 
@@ -40,6 +55,7 @@ export default class Threads extends Base {
         this.uponline = uponline;
     }
 
+    /** Reset this handler */
     public async reset(): Promise<void> {
         this.openedThread = undefined;
     }
@@ -89,6 +105,7 @@ export default class Threads extends Base {
         };
     }
 
+    /** Get all the responses to a thread */
     private async getThreadResponses(): Promise<Response[]> {
         const core = await this.page.content();
         if (!core) throw new Error('Could not find thread responses');
@@ -103,6 +120,7 @@ export default class Threads extends Base {
         return responses;
     }
 
+    /** Resolve a single response and its own responses */
     private resolveResponse(html: string): Response {
         const $ = cheerio.load(html);
 
@@ -121,6 +139,3 @@ export default class Threads extends Base {
         return { title, sentAt, author, content, responses };
     }
 }
-
-// data-region="replies-container" > div
-// . > data-region="post"

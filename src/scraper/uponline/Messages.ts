@@ -9,13 +9,18 @@ export enum Category {
 }
 
 export interface Group {
+    /** The title of the group */
     title: string;
+    /** Whether this "group" is a trainer */
     isTrainer: boolean;
 }
 
 export interface Message {
+    /** The author of the message */
     author: string;
+    /** The content of the message */
     content: string;
+    /** The time this was sent at */
     sentAt: Date;
 }
 
@@ -142,6 +147,7 @@ export default class Messages extends Base {
         return messages.flat();
     }
 
+    /** Parse the content of a single message */
     private parseSingleMessage(date: string, [header, body]: any[]): Message {
         const [author, time] = Reflect.get(
             cheerio,

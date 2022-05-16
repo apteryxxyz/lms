@@ -17,8 +17,11 @@ export const Events = {
 export type ThreadWithForum = Thread & { forum?: Forum };
 
 export default class Scraper extends EventEmitter {
+    /** The scrapers client */
     public client?: Client;
+    /** The node-schedule cron job */
     public job?: Job;
+    /** The debug interval timer */
     public debug?: NodeJS.Timer;
 
     /** The forums to watch for new threads on */
@@ -37,6 +40,7 @@ export default class Scraper extends EventEmitter {
         this.client = new Client();
         await this.client.initialise();
         if (process.env.NODE_ENV === 'development')
+            // When in development, take a screenshot every 3 seconds
             this.debug = setInterval(() => this.client?.debug(), 3000);
         await this.client.uponline?.login();
         await this.client.uponline?.messages.setup();
@@ -97,7 +101,7 @@ export default class Scraper extends EventEmitter {
     public async checkForums(): Promise<void> {
         const newThreads = [];
         for (const forum of this.forumsToWatch)
-            newThreads.push(...(await this.checkSingleForum(forum)));
+            newThreads.push(...(await this.getNewForumThreads(forum)));
 
         // Sort threads by date
         const fn = (a: any, b: any) => a.sentAt - b.sentAt;
@@ -110,7 +114,8 @@ export default class Scraper extends EventEmitter {
         }
     }
 
-    private async checkSingleForum(forum: Forum): Promise<ThreadWithForum[]> {
+    /** Get all the new threads within a forum */
+    private async getNewForumThreads(forum: Forum): Promise<ThreadWithForum[]> {
         const forums = this.client?.uponline?.forums as Forums;
         const threads = this.client?.uponline?.threads as Threads;
 
