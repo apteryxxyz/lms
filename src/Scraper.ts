@@ -7,7 +7,7 @@ import Forums, { Forum } from './scraper/uponline/Forums';
 import Messages, { Category } from './scraper/uponline/Messages';
 import type { Thread } from './scraper/uponline/Threads';
 import type Threads from './scraper/uponline/Threads';
-const CronExpression = '0,20,40 9-21 * * 1-6';
+const CronExpression = '0,20,40 8-22 * * 1-6';
 
 export const Events = {
     GroupMessageCreate: 'groupMessageCreate',
