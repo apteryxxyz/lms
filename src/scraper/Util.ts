@@ -51,24 +51,18 @@ export default class Util extends null {
     /** Get the date for a when string */
     public static getTimeAgo(when: string): Date {
         let now = new Date();
-        now = new Date(
-            `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
-        );
-        const [seconds, minutes, hours, days, months] = [
-            SecondsAgo,
-            MinutesAgo,
-            HoursAgo,
-            DaysAgo,
-            MonthsAgo,
-        ].map((r) => when.match(r));
 
-        if (seconds)
-            now.setSeconds(now.getSeconds() - parseInt(seconds[1], 10));
-        else if (minutes)
-            now.setMinutes(now.getMinutes() - parseInt(minutes[1], 10));
-        else if (hours) now.setHours(now.getHours() - parseInt(hours[1], 10));
-        else if (days) now.setDate(now.getDate() - parseInt(days[1], 10));
-        else if (months) now.setMonth(now.getMonth() - parseInt(months[1], 10));
+        const seconds = when.match(SecondsAgo);
+        const minutes = when.match(MinutesAgo);
+        const hours = when.match(HoursAgo);
+        const days = when.match(DaysAgo);
+        const months = when.match(MonthsAgo);
+
+        if (seconds) now.setSeconds(now.getSeconds() - parseInt(seconds[1]));
+        if (minutes) now.setMinutes(now.getMinutes() - parseInt(minutes[1]));
+        if (hours) now.setHours(now.getHours() - parseInt(hours[1]));
+        if (days) now.setDate(now.getDate() - parseInt(days[1]));
+        if (months) now.setMonth(now.getMonth() - parseInt(months[1]));
         return now;
     }
 
