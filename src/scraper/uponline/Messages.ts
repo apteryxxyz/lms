@@ -45,7 +45,7 @@ export default class Messages extends Base {
         await this.page.click('[aria-label="Messaging Button"]');
         await this.page.waitForTimeout(4000);
 
-        this.openedCategory = Category.GroupMessages;
+        this.openedCategory = Category.Favourites;
         await this.listGroups();
     }
 
