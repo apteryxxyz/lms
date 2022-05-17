@@ -108,7 +108,7 @@ export default class Messages extends Base {
         if (!element.length) throw new Error('Group not found');
         this.log(`Opening '${group.title}' messages group...`);
         await element[element.length - 1].evaluate((n) => n.click());
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForTimeout(5000);
         this.openedGroup = group;
     }
 
