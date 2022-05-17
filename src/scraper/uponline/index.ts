@@ -19,6 +19,8 @@ export default class Uponline extends Base {
     public threads: Threads;
     /** Whether the client has logged into the LMS */
     public hasLoggedIn = false;
+    /** Option to ignore handler resets */
+    public ignoreReset = false;
 
     public constructor(client: Client) {
         super(client);
@@ -29,9 +31,11 @@ export default class Uponline extends Base {
 
     /** Reset all the handlers */
     public async reset(source?: Base): Promise<void> {
-        if (source !== this.messages) await this.messages.reset();
-        if (source !== this.forums) await this.forums.reset();
-        if (source !== this.threads) await this.threads.reset();
+        if (!this.ignoreReset) {
+            if (source !== this.messages) await this.messages.reset();
+            if (source !== this.forums) await this.forums.reset();
+            if (source !== this.threads) await this.threads.reset();
+        }
     }
 
     /** Check if the current page is the LMS login page */

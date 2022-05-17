@@ -39,9 +39,6 @@ export default class Scraper extends EventEmitter {
     public async start(): Promise<void> {
         this.client = new Client();
         await this.client.initialise();
-        if (process.env.NODE_ENV === 'development')
-            // When in development, take a screenshot every 3 seconds
-            this.debug = setInterval(() => this.client?.debug(), 3000);
         await this.client.uponline?.login();
         await this.client.uponline?.messages.setup();
         await this.client.wait(3000);
@@ -50,6 +47,7 @@ export default class Scraper extends EventEmitter {
     /** Stop the client */
     public async stop(): Promise<void> {
         clearInterval(this.debug);
+        this.client?.log('Closing browser');
         await this.client?.browser.close();
         this.client = undefined;
     }
@@ -62,7 +60,7 @@ export default class Scraper extends EventEmitter {
             await this.checkMessages();
             this.client?.log('Checking for new threads...');
             await this.checkForums();
-            this.client?.log('Done');
+            this.client?.log('Finished process');
         } catch (error) {
             await this.stop();
             throw error;
@@ -104,6 +102,10 @@ export default class Scraper extends EventEmitter {
 
     /** Check the forums for new threads */
     public async checkForums(): Promise<void> {
+        // Set ignoreReset to true, this will ignore the
+        // handler resets and make this process a lot faster
+        Reflect.set(this.client?.uponline ?? {}, 'ignoreReset', true);
+
         const newThreads = [];
         for (const forum of this.forumsToWatch)
             newThreads.push(...(await this.getNewForumThreads(forum)));
@@ -111,6 +113,7 @@ export default class Scraper extends EventEmitter {
         // Sort threads by date
         const fn = (a: any, b: any) => a.sentAt - b.sentAt;
         const sortedThreads = newThreads.sort(fn);
+        Reflect.set(this.client?.uponline ?? {}, 'ignoreReset', false);
 
         // Send the events for each new thread
         for (const thread of sortedThreads) {

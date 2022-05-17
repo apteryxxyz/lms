@@ -26,7 +26,12 @@ export default class Client extends Base {
         if (!this._browser) {
             // Launch the browser if it isn't already running
             this.log('Launching browser...');
-            this._browser = await puppeteer.launch();
+
+            const options =
+                process.env.NODE_ENV === 'development'
+                    ? { headless: false }
+                    : {};
+            this._browser = await puppeteer.launch(options);
         }
 
         this.log('Creating page...');
