@@ -50,7 +50,7 @@ export default class Util extends null {
 
     /** Get the date for a when string */
     public static getTimeAgo(when: string): Date {
-        let now = new Date();
+        const now = new Date();
 
         const seconds = when.match(SecondsAgo);
         const minutes = when.match(MinutesAgo);
@@ -58,11 +58,13 @@ export default class Util extends null {
         const days = when.match(DaysAgo);
         const months = when.match(MonthsAgo);
 
-        if (seconds) now.setSeconds(now.getSeconds() - parseInt(seconds[1]));
-        if (minutes) now.setMinutes(now.getMinutes() - parseInt(minutes[1]));
-        if (hours) now.setHours(now.getHours() - parseInt(hours[1]));
-        if (days) now.setDate(now.getDate() - parseInt(days[1]));
-        if (months) now.setMonth(now.getMonth() - parseInt(months[1]));
+        if (seconds)
+            now.setSeconds(now.getSeconds() - parseInt(seconds[1], 10));
+        if (minutes)
+            now.setMinutes(now.getMinutes() - parseInt(minutes[1], 10));
+        if (hours) now.setHours(now.getHours() - parseInt(hours[1], 10));
+        if (days) now.setDate(now.getDate() - parseInt(days[1], 10));
+        if (months) now.setMonth(now.getMonth() - parseInt(months[1], 10));
         return now;
     }
 
