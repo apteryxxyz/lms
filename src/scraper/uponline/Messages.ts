@@ -65,7 +65,7 @@ export default class Messages extends Base {
         const button = await this.page.$x(`//span[text()='${category}']`);
         if (!button.length) throw new Error('Category not found');
         await button[0].evaluate((n) => n.click());
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(5000);
 
         this.openedCategory = category;
         await this.listGroups();
