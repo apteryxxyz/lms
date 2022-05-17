@@ -57,11 +57,16 @@ export default class Scraper extends EventEmitter {
     /** Do all tasks */
     public async process(): Promise<void> {
         await this.start();
-        this.client?.log('Checking for new messages...');
-        await this.checkMessages();
-        this.client?.log('Checking for new threads...');
-        await this.checkForums();
-        this.client?.log('Done');
+        try {
+            this.client?.log('Checking for new messages...');
+            await this.checkMessages();
+            this.client?.log('Checking for new threads...');
+            await this.checkForums();
+            this.client?.log('Done');
+        } catch (error) {
+            await this.stop();
+            throw error;
+        }
         await this.stop();
     }
 

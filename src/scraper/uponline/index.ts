@@ -71,7 +71,7 @@ export default class Uponline extends Base {
 
         this.log('Attempting to login to LMS...');
         await this.page.click('[id=button1]');
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForTimeout(5000);
 
         if (!this.isOnCoursePage) {
             // If directed to Microsoft's login page, try to login

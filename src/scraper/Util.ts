@@ -68,8 +68,6 @@ export default class Util extends null {
 
     /** Clean a string */
     public static cleanString(str: string): string {
-        str = str.replace(/\n+/g, '\n\n');
-        str = str.replaceAll('\n**\n', '\n**');
-        return str;
+        return str.replace(/[\r\n]+/g, '\n\n').replace(/\n**\n/g, '\n**');
     }
 }
