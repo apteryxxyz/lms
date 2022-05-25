@@ -72,10 +72,15 @@ export default class Scraper extends EventEmitter {
     public async checkMessages(): Promise<void> {
         const messages = this.client?.uponline?.messages as Messages;
 
-        // Open category
-        await messages.openCategory(Category.GroupMessages);
-        const groups = await messages.listGroups();
-        const group = groups.find((g) => g.title.includes('Software'));
+        const defaultGroups = await messages.listGroups();
+        let group = defaultGroups.find((g) => g.title.includes('Software'));
+        if (!group) {
+            // Open category if not already open
+            await messages.openCategory(Category.GroupMessages);
+            const groups = await messages.listGroups();
+            group = groups.find((g) => g.title.includes('Software'));
+        }
+
         if (!group) throw new Error('Group not found');
         await messages.openGroup(group);
 
