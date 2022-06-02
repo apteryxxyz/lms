@@ -17,6 +17,11 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "resolveJsonModule": true,
+        "baseUrl": ".",
+        "paths": {
+            "@lib/*": ["./lib/*"],
+            "@src/*": ["./src/*"]
+        },
         // Emit
         "declaration": true,
         "importHelpers": true,
@@ -35,6 +40,6 @@
         "target": "ES2021",
         "useDefineForClassFields": false
     },
-    "include": ["./src/**/*.ts"],
+    "include": ["./src/**/*.ts", "./lib/**/*.ts"],
     "exclude": ["./node_modules/", "./dist/", "./**/_*/"]
 }

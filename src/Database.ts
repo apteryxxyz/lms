@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
-import type { Forum, PartialThread } from './scraper/uponline/Forums';
-import type { Group, Message } from './scraper/uponline/Messages';
-import type { Thread } from './scraper/uponline/Threads';
+import type { Forum, PartialThread } from '@lib/scraper/uponline/Forums';
+import type { Group, Message } from '@lib/scraper/uponline/Messages';
+import type { Thread } from '@lib/scraper/uponline/Threads';
 
 async function readFile(path: string, def: string): Promise<string> {
     path = path.replace(/=/g, '');

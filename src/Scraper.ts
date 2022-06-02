@@ -1,12 +1,12 @@
 import { container } from 'maclary';
-import schedule, { Job } from 'node-schedule';
+import { scheduleJob, Job } from 'node-schedule';
 import { EventEmitter } from 'node:events';
 import Database from './Database';
-import Client from './scraper/Client';
-import Forums, { Forum } from './scraper/uponline/Forums';
-import Messages, { Category } from './scraper/uponline/Messages';
-import type { Thread } from './scraper/uponline/Threads';
-import type Threads from './scraper/uponline/Threads';
+import Scraper from '@lib/scraper/Scraper';
+import Messages, { Category } from '@lib/scraper/uponline/Messages';
+import Forums, { Forum } from '@lib/scraper/uponline/Forums';
+import type Threads from '@lib/scraper/uponline/Threads';
+import type { Thread } from '@lib/scraper/uponline/Threads';
 const CronExpression = '0,20,40 8-22 * * 1-6';
 
 export const Events = {
@@ -14,11 +14,11 @@ export const Events = {
     ThreadCreate: 'threadCreate',
 };
 
-export type ThreadWithForum = Thread & { forum?: Forum };
+export type ThreadWithForum = Thread & { forum: Forum };
 
-export default class Scraper extends EventEmitter {
+export default class ScraperClient extends EventEmitter {
     /** The scrapers client */
-    public client?: Client;
+    public client?: Scraper;
     /** The node-schedule cron job */
     public job?: Job;
     /** The debug interval timer */
@@ -31,17 +31,17 @@ export default class Scraper extends EventEmitter {
 
     /** Setup the cron job */
     public setup(): void {
-        this.job = schedule.scheduleJob(CronExpression, () => this.process());
+        this.job = scheduleJob(CronExpression, () => this.process());
         container.logger.info('Scheduled scraper job');
     }
 
     /** Start the client */
     public async start(): Promise<void> {
-        this.client = new Client();
+        this.client = new Scraper();
         await this.client.initialise();
         await this.client.uponline?.login();
         await this.client.uponline?.messages.setup();
-        await this.client.wait(3000);
+        await this.client.page.waitForTimeout(3000);
     }
 
     /** Stop the client */

@@ -2,8 +2,8 @@ import { container, Event } from 'maclary';
 import { EmbedBuilder } from '@discordjs/builders';
 import type { GuildTextBasedChannel } from 'discord.js';
 import { Events } from '../Scraper';
-import type { Group, Message } from '../scraper/uponline/Messages';
-import Util from '../scraper/Util';
+import type { Group, Message } from '@lib/scraper/uponline/Messages';
+import Util from '@lib/scraper/Util';
 
 const ChannelID = process.env.MESSAGE_ID as string;
 const TrainerName = process.env.TRAINER_NAME as string;

@@ -1,14 +1,14 @@
 import { container, Event } from 'maclary';
+import { Attachment, ButtonStyle, GuildTextBasedChannel } from 'discord.js';
 import {
     ActionRowBuilder,
     ButtonBuilder,
     EmbedBuilder,
 } from '@discordjs/builders';
 import { Events } from '../Scraper';
-import type { Forum } from '../scraper/uponline/Forums';
-import type { Thread } from '../scraper/uponline/Threads';
-import { Attachment, ButtonStyle, GuildTextBasedChannel } from 'discord.js';
-import Util from '../scraper/Util';
+import type { Forum } from '@lib/scraper/uponline/Forums';
+import type { Thread } from '@lib/scraper/uponline/Threads';
+import Util from '@lib/scraper/Util';
 
 const ChannelID = process.env.THREAD_ID as string;
 const TrainerName = process.env.TRAINER_NAME as string;

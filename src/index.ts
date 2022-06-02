@@ -30,7 +30,7 @@ const token =
         ? process.env.DISCORD_DEV_TOKEN
         : process.env.DISCORD_PROD_TOKEN;
 
-void client.login(token as string);
+void container.client.login(token as string);
 void container.scraper.setup();
 
 export default container;
