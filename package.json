@@ -16,7 +16,7 @@
         "build": "tsc && tsc-alias",
         "dev": "cross-env NODE_ENV=development ts-node src/index.ts",
         "serve": "node .",
-        "start": "pm2 start --name lms --npm serve",
+        "start": "pm2 start npm --name lms -- serve",
         "restart": "pm2 restart lms",
         "stop": "pm2 stop lms",
         "pull": "git pull && yarn clean && yarn build && yarn restart"
