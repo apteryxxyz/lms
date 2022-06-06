@@ -1,77 +1,73 @@
 import Base from '../Base';
-import type Scraper from '../Scraper';
+import type Scraper from '..';
 import Util from '../Util';
-import Messages from './Messages';
 import Forums from './Forums';
+import Messages from './Messages';
+import Modules from './Modules';
+import Navigation from './Navigation';
 import Threads from './Threads';
+import Topics from './Topics';
 const Domain = 'uponline.education';
 
 export default class Uponline extends Base {
     /** Uponline domain */
-    public static Domain = Domain;
-    /** Uponline domain */
     public Domain = Domain;
-    /** Messages handler */
-    public messages: Messages;
     /** Forums handler */
     public forums: Forums;
+    /** Messages handler */
+    public messages: Messages;
+    /** Modules handler */
+    public modules: Modules;
+    /** Navigation handler */
+    public navigation: Navigation;
     /** Threads handler */
     public threads: Threads;
-    /** Whether the scraper has logged into the LMS */
-    public hasLoggedIn = false;
-    /** Option to ignore handler resets */
-    public ignoreReset = false;
+    /** Topics handler */
+    public topics: Topics;
 
     public constructor(scraper: Scraper) {
         super(scraper);
-        this.messages = new Messages(this);
         this.forums = new Forums(this);
+        this.messages = new Messages(this);
+        this.modules = new Modules(this);
+        this.navigation = new Navigation(this);
         this.threads = new Threads(this);
+        this.topics = new Topics(this);
     }
 
-    /** Reset all the handlers */
-    public async reset(source?: Base): Promise<void> {
-        if (!this.ignoreReset) {
-            if (source !== this.messages) await this.messages.reset();
-            if (source !== this.forums) await this.forums.reset();
-            if (source !== this.threads) await this.threads.reset();
-        }
+    /** Check whether the client is on the Uponline login page */
+    public isOnLoginPage(): Promise<boolean> {
+        return Promise.resolve(this.page.url().includes(`${Domain}/go`));
     }
 
-    /** Check if the current page is the LMS login page */
-    public get isOnLoginPage(): boolean {
-        return this.page.url().includes(`${Domain}/go`);
-    }
-
-    /** Check if the current page is the LMS course page */
-    public get isOnCoursePage(): boolean {
-        return (
+    /** Check whether the client is on the Uponline home page */
+    public isOnCoursePage(): Promise<boolean> {
+        return Promise.resolve(
             this.page.url().includes(`${Domain}/course`) ||
-            this.page.url().includes(`${Domain}/mod`)
+                this.page.url().includes(`${Domain}/mod`),
         );
     }
 
     /** Navigate to the LMS login page */
     public async goToLoginPage(): Promise<void> {
+        if (await this.isOnLoginPage()) return;
         this.log('Navigating to the LMS login page...');
         await this.page.goto(`https://${Domain}/go`);
         await this.page.waitForTimeout(3000);
     }
 
+    /** Navigate to the LMS home page */
     public async goToHomePage(): Promise<void> {
         this.log('Navigating to the LMS home page...');
         await this.page.goto(`https://${Domain}/`);
         await this.page.waitForTimeout(3000);
-        await this.reset(this);
     }
 
     /** Attempt to login to the LMS */
     public async login(): Promise<boolean> {
-        if (this.hasLoggedIn) return true;
-        if (!this.isOnLoginPage) await this.goToLoginPage();
-
-        if (this.hasLoggedIn) return true;
-        if (!this.isOnLoginPage) await this.goToLoginPage();
+        if (await this.isOnCoursePage()) return true;
+        await this.goToLoginPage();
+        if (await this.isOnCoursePage()) return true;
 
         this.log('Attempting to login to LMS...');
         await this.page.click('[id=button1]');
@@ -81,17 +77,16 @@ export default class Uponline extends Base {
             // If directed to Microsoft's login page, try to login
             this.log('LMS login requires login to Microsoft');
             await this.scraper.microsoft?.login();
-        } else if (this.scraper.microsoft) {
-            this.scraper.microsoft.hasLoggedIn = true;
         }
 
-        if (!this.isOnCoursePage) return false;
-        this.hasLoggedIn = true;
+        if (!(await this.isOnCoursePage())) return false;
         this.log('Logged into the LMS');
 
-        // Save cookies
+        // Save cookies to file
         await Util.saveCookies(this.page);
-
         return true;
     }
+
+    /** Uponline domain */
+    public static Domain = Domain;
 }

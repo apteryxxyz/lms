@@ -20,9 +20,8 @@ export default class GroupMessage extends Event {
 
     public override async handle(group: Group, message: Message): Promise<any> {
         const channel = await container.client.channels.fetch(ChannelID);
-        const header = `Sent by ${message.author} in ${group.title}`;
-        const content =
-            message.author === TrainerName ? `<@&${MentionID}>` : null;
+        const header = `Sent by ${message.author} in ${group.name}`;
+        const content = message.author === TrainerName ? `<@&${MentionID}>` : null;
 
         const embed = new EmbedBuilder()
             .setDescription(`${header}\n\n${Util.cleanString(message.content)}`)

@@ -1,5 +1,5 @@
 import Base from '../Base';
-import type Scraper from '../Scraper';
+import type Scraper from '..';
 
 const Email = process.env.MICROSOFT_EMAIL as string;
 const Password = process.env.MICROSOFT_PASSWORD as string;
@@ -7,25 +7,26 @@ const Domain = 'microsoftonline.com';
 
 export default class Microsoft extends Base {
     /** Microsoft domain */
-    public static Domain = Domain;
-    /** Microsoft domain */
     public Domain = Domain;
-    /** Whether the scraper has logged into Microsoft */
-    public hasLoggedIn = false;
 
     public constructor(scraper: Scraper) {
         super(scraper);
     }
 
+    /** Check whether the scraper has logged into Microsoft */
+    public hasLoggedIn(): Promise<boolean> {
+        return Promise.resolve(this.scraper.uponline?.isOnCoursePage() ?? false);
+    }
+
     /** Check if the current page is the Microsoft login */
-    public get isOnLoginPage(): boolean {
-        return this.page.url().includes(`login.${Domain}`);
+    public isOnLoginPage(): Promise<boolean> {
+        return Promise.resolve(this.page.url().includes(`login.${Domain}`));
     }
 
     /** Attempt to login to the Microsoft */
     public async login(): Promise<boolean> {
-        if (this.hasLoggedIn) return true;
-        if (!this.isOnLoginPage) return false;
+        if (await this.hasLoggedIn()) return true;
+        if (!(await this.isOnLoginPage())) return false;
 
         this.log('Attempting to login to Microsoft...');
 
@@ -48,9 +49,11 @@ export default class Microsoft extends Base {
         // Ensure the next page has loaded
         await this.page.waitForSelector('[id="ZZZ"]');
 
-        this.hasLoggedIn = true;
         this.log('Logged into Microsoft');
 
         return true;
     }
+
+    /** Microsoft domain */
+    public static Domain = Domain;
 }

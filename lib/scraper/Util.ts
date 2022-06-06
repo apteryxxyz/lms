@@ -22,20 +22,14 @@ export default class Util extends null {
 
     /** Get all cookies from a page and save to a file */
     public static async saveCookies(page: Page): Promise<void> {
-        const domains = [
-            `https://${Uponline.Domain}`,
-            `https://login.${Microsoft.Domain}`,
-        ];
+        const domains = [`https://${Uponline.Domain}`, `https://login.${Microsoft.Domain}`];
         const cookies = await page.cookies(...domains);
         fs.writeFileSync(CookieFile, JSON.stringify(cookies));
         Base.prototype.log(`Saved cookies to ${CookieFile}`);
     }
 
     /** Download an image from within a page */
-    public static async downloadImage(
-        page: Page,
-        url: string,
-    ): Promise<string> {
+    public static async downloadImage(page: Page, url: string): Promise<string> {
         const base64 = await page.evaluate(async (url) => {
             const response = await fetch(url);
             const blob = await response.blob();
@@ -58,10 +52,8 @@ export default class Util extends null {
         const days = when.match(DaysAgo);
         const months = when.match(MonthsAgo);
 
-        if (seconds)
-            now.setSeconds(now.getSeconds() - parseInt(seconds[1], 10));
-        if (minutes)
-            now.setMinutes(now.getMinutes() - parseInt(minutes[1], 10));
+        if (seconds) now.setSeconds(now.getSeconds() - parseInt(seconds[1], 10));
+        if (minutes) now.setMinutes(now.getMinutes() - parseInt(minutes[1], 10));
         if (hours) now.setHours(now.getHours() - parseInt(hours[1], 10));
         if (days) now.setDate(now.getDate() - parseInt(days[1], 10));
         if (months) now.setMonth(now.getMonth() - parseInt(months[1], 10));

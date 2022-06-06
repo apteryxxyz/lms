@@ -2,17 +2,13 @@ import type Uponline from '.';
 import Base from '../Base';
 import Util from '../Util';
 
-const ForumsList = [
+export const List = [
     // { module: 'UX Principles I', name: 'Case study', id: '1479' },
     // { module: 'UX Principles I', name: 'UX Discussion Forum', id: '1504' },
     // { module: 'UX Principles I', name: 'DSD Noticeboard', id: '1674' },
     // { module: 'UX Principles I', name: 'Activities', id: '1695' },
 
-    // {
-    //     module: 'Development Principles I',
-    //     name: 'Discussion forum',
-    //     id: '1521',
-    // },
+    // { module: 'Development Principles I', name: 'Discussion forum', id: '1521' },
     // { module: 'Development Principles I', name: 'Activities', id: '1694' },
 
     { module: 'Integrated Studio I', name: 'DSD Noticeboard', id: '1920' },
@@ -41,87 +37,68 @@ export interface PartialThread {
 }
 
 export default class Forums extends Base {
-    /** List of forums */
-    public static List = ForumsList;
-    /** List of forums */
-    public List = ForumsList;
+    public list: Forum[] = List;
     /** Uponline handler */
     public uponline: Uponline;
-    /** Currently opened forum */
-    public openedForum?: Forum['id'];
-    /** List of threads in the current forum */
-    public visibleThreads?: PartialThread[];
 
     public constructor(uponline: Uponline) {
         super(uponline.scraper);
         this.uponline = uponline;
     }
 
-    /** Reset this handler */
-    public reset(): void {
-        this.openedForum = undefined;
-        this.visibleThreads = undefined;
+    /** Get the currently opened forum */
+    public getOpenedForum(): string | undefined {
+        const url = new URL(this.page.url());
+        if (!url.toString().includes('/mod/forum/view.php')) return;
+        return url.searchParams.get('id') || undefined;
     }
 
     /** Go to a forums page */
     public async goToForum(forum: Forum): Promise<void> {
-        this.log(`Opening forum '${forum.module} ${forum.name}'...`);
         const url = `https://uponline.education/mod/forum/view.php?id=${forum.id}`;
-        await this.page.goto(url);
-        await this.page.waitForTimeout(3000);
-
-        this.openedForum = forum.id;
-        // When navigating to a new page, the message panel hides, reopen it
-        await this.uponline.reset(this);
+        this.log(`Navigating to forum ${forum.name}`);
+        await this.page.goto(url).then(() => this.page.waitForTimeout(3000));
     }
 
     /** Produce a list of threads in a forum */
     public async listThreads(): Promise<PartialThread[]> {
-        if (!this.openedForum) throw new Error('Forum not opened');
-        const { page } = this.scraper;
+        const currentId = this.getOpenedForum();
+        if (!currentId) throw new Error('No forum is opened');
+        const { page } = this;
 
-        async function getInfos() {
-            const elements = await page.$$('[id="first-post-author-image"]');
-            const promises = elements.map((e) =>
-                e.evaluate((n) => n.innerText),
-            );
-            const texts = await Promise.all(promises);
-            return texts.map((t) =>
-                t
+        async function getInfos(): Promise<string[]> {
+            const e = await page.$$('#first-post-author-image');
+            const t = await Promise.all(e.map((e: any) => e.evaluate((n: any) => n.innerText)));
+            return t.map((y) =>
+                y
                     .split('\n')
                     .map((s: any) => s.trim())
                     .filter(Boolean),
             );
         }
 
-        async function getIds() {
-            const elements = await page.$$('[id="first-post-author-image"]');
-            const promises = elements.map((e) =>
-                e.evaluate((n) => n.innerHTML),
-            );
-            const texts = await Promise.all(promises);
-            return texts.map((t) => t.match(/discuss.php\?d=(\d+)/)[1]);
+        async function getIds(): Promise<string[]> {
+            const e = await page.$$('[id="first-post-author-image"]');
+            const t = await Promise.all(e.map((e: any) => e.evaluate((n: any) => n.innerHTML)));
+            return t.map((y) => y.match(/discuss.php\?d=(\d+)/)[1]);
         }
 
-        async function getDates() {
-            const elements = await page.$$('[id="last-post-ago"]');
-            const promises = elements.map((e) =>
-                e.evaluate((n) => n.innerText),
-            );
-            return Promise.all(promises);
+        async function getDates(): Promise<string[]> {
+            const e = await page.$$('[id="last-post-ago"]');
+            return Promise.all(e.map((e: any) => e.evaluate((n: any) => n.innerText)));
         }
 
         const infos = await getInfos();
         const ids = await getIds();
         const dates = (await getDates()).map((d) => Util.getTimeAgo(d));
 
-        return (this.visibleThreads = infos
+        return infos
             .map((info, i) => ({
                 id: ids[i],
                 title: info[1],
                 author: info[0],
                 updatedAt: dates[i],
             }))
-            .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()));
+            .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
     }
 }

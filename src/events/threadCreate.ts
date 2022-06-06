@@ -1,10 +1,6 @@
 import { container, Event } from 'maclary';
 import { Attachment, ButtonStyle, GuildTextBasedChannel } from 'discord.js';
-import {
-    ActionRowBuilder,
-    ButtonBuilder,
-    EmbedBuilder,
-} from '@discordjs/builders';
+import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from '@discordjs/builders';
 import { Events } from '../Scraper';
 import type { Forum } from '@lib/scraper/uponline/Forums';
 import type { Thread } from '@lib/scraper/uponline/Threads';
@@ -27,8 +23,7 @@ export default class ThreadCreate extends Event {
         const channel = await container.client.channels.fetch(ChannelID);
         const url = `https://uponline.education/mod/forum/discuss.php?d=${thread.id}`;
         const header = `Sent by ${thread.author} in ${forum.module}, ${forum.name}`;
-        const content =
-            thread.author === TrainerName ? `<@&${MentionID}>` : null;
+        const content = thread.author === TrainerName ? `<@&${MentionID}>` : null;
         const files = thread.images.map(({ base64 }, i) => {
             const buff = Buffer.from(base64.split(',')[1], 'base64');
             return new Attachment(buff, `${i}.png`);

@@ -1,6 +1,5 @@
 import type { Browser, Page } from 'puppeteer';
-import { container } from 'maclary';
-import type Scraper from './Scraper';
+import type Scraper from '.';
 
 export default abstract class Base {
     public scraper: Scraper;
@@ -20,11 +19,8 @@ export default abstract class Base {
     }
 
     /** Log a message to the console with a timestamp */
-    public log(
-        message: string,
-        method: 'info' | 'error' | 'warn' = 'info',
-    ): void {
-        container.logger[method](message);
+    public log(message: string, method: 'info' | 'error' | 'warn' = 'info'): void {
+        console[method](message);
     }
 
     /** Take a screenshot of the current page as a way to debug */

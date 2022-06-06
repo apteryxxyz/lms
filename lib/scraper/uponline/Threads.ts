@@ -47,32 +47,24 @@ export interface Response {
 export default class Threads extends Base {
     /** Uponline handler */
     public uponline: Uponline;
-    /** Currently opened thread */
-    public openedThread?: PartialThread['id'];
 
     public constructor(uponline: Uponline) {
         super(uponline.scraper);
         this.uponline = uponline;
     }
 
-    /** Reset this handler */
-    public reset(): void {
-        this.openedThread = undefined;
+    public getOpenedThread(): string | undefined {
+        const url = new URL(this.page.url());
+        if (!url.toString().includes('/mod/forum/discuss.php')) return;
+        return url.searchParams.get('id') || undefined;
     }
 
-    /** Go to a forum thread */
     public async goToThread(thread: PartialThread): Promise<void> {
-        this.log(`Opening thread '${thread.title}'...`);
+        this.log(`Opening thread ${thread.title}...`);
         const url = `https://uponline.education/mod/forum/discuss.php?d=${thread.id}`;
-        await this.page.goto(url);
-
-        // When navigating to a new page, the message panel hides, reopen it
-        await this.uponline.reset(this);
-        this.openedThread = thread.id;
-        await this.page.waitForTimeout(3000);
+        await this.page.goto(url).then(() => this.page.waitForTimeout(3000));
     }
 
-    /** Get the post content of the current thread */
     public async getThreadContent(): Promise<Thread> {
         const core = await this.page.$('[data-region-content*="-post-core"]');
         if (!core) throw new Error('Could not find thread content');
@@ -88,10 +80,7 @@ export default class Threads extends Base {
 
         const { markdown, images } = h2m(body);
         for (const image of images)
-            (image as Image).base64 = await Util.downloadImage(
-                this.page,
-                image.src,
-            );
+            (image as Image).base64 = await Util.downloadImage(this.page, image.src);
         const responses = await this.getThreadResponses();
 
         return {
@@ -113,15 +102,13 @@ export default class Threads extends Base {
 
         const container = $('[data-region="replies-container"] > div');
         const replies = Array.from(container.first().children('article'));
-        const responses = replies.map((r: any) =>
-            this.resolveResponse($.html(r.children)),
-        );
+        const responses = replies.map((r: any) => this.parseResponse($.html(r.children)));
 
         return responses;
     }
 
     /** Resolve a single response and its own responses */
-    private resolveResponse(html: string): Response {
+    private parseResponse(html: string): Response {
         const $ = cheerio.load(html);
 
         const header = $('header').first().text().split('\n');
@@ -132,9 +119,7 @@ export default class Threads extends Base {
 
         const container = $('[data-region="replies-container"] > div');
         const replies = Array.from(container.first().children('article'));
-        const responses = replies.map((r: any) =>
-            this.resolveResponse($.html(r.children)),
-        );
+        const responses = replies.map((r: any) => this.parseResponse($.html(r.children)));
 
         return { title, sentAt, author, content, responses };
     }

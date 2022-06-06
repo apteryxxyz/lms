@@ -5,6 +5,16 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@apteryxxyz/html-translator@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "@apteryxxyz/html-translator@npm:1.2.2"
+  dependencies:
+    node-html-parser: ^5.3.3
+    table: ^6.8.0
+  checksum: 9539ef895e6def9a35045807036baba1e54ff43b1110377269de72675513a06ab22ed3c04d3367d8bf3b7533588c5b83791042de8aecc394df5ffb6e874c41aa
+  languageName: node
+  linkType: hard
+
 "@discordjs/builders@npm:^0.14.0-dev":
   version: 0.14.0-dev.1652443433-d522320
   resolution: "@discordjs/builders@npm:0.14.0-dev.1652443433-d522320"
@@ -95,6 +105,16 @@ __metadata:
   version: 1.2.1
   resolution: "@humanwhocodes/object-schema@npm:1.2.1"
   checksum: a824a1ec31591231e4bad5787641f59e9633827d0a2eaae131a288d33c9ef0290bd16fda8da6f7c0fcb014147865d12118df10db57f27f41e20da92369fcb3f1
+  languageName: node
+  linkType: hard
+
+"@maclary/context@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@maclary/context@npm:0.1.2"
+  peerDependencies:
+    discord-api-types: "*"
+    discord.js: "*"
+  checksum: 896c910cf723296e06b7578557a176a3a6cb2ca11867cf708597a0a6cd4b25ca987e6a545e71d1e25d4a8f5f8be1b625e6a10f5f937452f134aa2c3372d9126b
   languageName: node
   linkType: hard
 
@@ -523,6 +543,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"apteryx-eslint-config@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "apteryx-eslint-config@npm:1.0.0"
+  dependencies:
+    "@sapphire/eslint-config": ^4.3.5
+    deepmerge: ^4.2.2
+  checksum: 8f29c53df87f80c4d52f6ea641148cf433ade53f6c8223c42d2633adf06ec60f475aa27d86056f3aefdca94bd921709307871ec4111d5dce715060ea0b73dc4c
+  languageName: node
+  linkType: hard
+
+"apteryx-prettier-config@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "apteryx-prettier-config@npm:1.0.1"
+  dependencies:
+    prettier: ^2.6.2
+  checksum: ae00e95d2f4bf76c52a02d5f4b9799c3e30d225069a1b698819892e9f8dc74a6d418c1c3da48b7ffe9a6770336478a963abb8e3c4db75a3797df8567df831752
+  languageName: node
+  linkType: hard
+
 "are-we-there-yet@npm:^3.0.0":
   version: 3.0.0
   resolution: "are-we-there-yet@npm:3.0.0"
@@ -942,6 +981,13 @@ __metadata:
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
   checksum: edb65dd0d7d1b9c40b2f50219aef30e116cedd6fc79290e740972c132c09106d2e80aa0bc8826673dd5a00222d4179c84b36a790eef63a4c4bca75a37ef90804
+  languageName: node
+  linkType: hard
+
+"deepmerge@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "deepmerge@npm:4.2.2"
+  checksum: a8c43a1ed8d6d1ed2b5bf569fa4c8eb9f0924034baf75d5d406e47e157a451075c4db353efea7b6bcc56ec48116a8ce72fccf867b6e078e7c561904b5897530b
   languageName: node
   linkType: hard
 
@@ -1556,6 +1602,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fuse.js@npm:^6.6.2":
+  version: 6.6.2
+  resolution: "fuse.js@npm:6.6.2"
+  checksum: 17ae758ce205276ebd88bd9c9f088a100be0b4896abac9f6b09847151269d1690f41d7f98ff5813d4a58973162dbd99d0072ce807020fee6f9de60170f6b08eb
+  languageName: node
+  linkType: hard
+
 "gauge@npm:^4.0.3":
   version: 4.0.4
   resolution: "gauge@npm:4.0.4"
@@ -2007,11 +2060,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "lms@workspace:."
   dependencies:
+    "@apteryxxyz/html-translator": ^1.2.2
+    "@maclary/context": ^0.1.2
     "@sapphire/eslint-config": ^4.3.5
     "@types/cheerio": 0.22.0
     "@types/fs-extra": ^9.0.13
     "@types/node-schedule": ^2.1.0
     "@wakeful-cloud/html-translator": ^1.1.2
+    apteryx-eslint-config: ^1.0.0
+    apteryx-prettier-config: ^1.0.1
     cat-loggr: ^1.2.2
     cheerio: 0.22.0
     cross-env: ^7.0.3
@@ -2019,6 +2076,7 @@ __metadata:
     dotenv: ^16.0.1
     eslint: ^8.15.0
     fs-extra: ^10.1.0
+    fuse.js: ^6.6.2
     maclary: dev
     moment: ^2.29.3
     node-schedule: ^2.1.0
