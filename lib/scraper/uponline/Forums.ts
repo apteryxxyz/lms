@@ -3,6 +3,12 @@ import Base from '../Base';
 import Util from '../Util';
 
 export const List = [
+    { module: 'Orientation/Regular News', name: '🟨 Welcome/Orientation', id: '2146' },
+    { module: 'Orientation/Regular News', name: '🟦 Monday Posts', id: '2147' },
+    { module: 'Orientation/Regular News', name: '🟩 Live Session Recordings', id: '2148' },
+    { module: 'Orientation/Regular News', name: '🟥 Noticeboard', id: '2149' },
+    { module: 'Orientation/Regular News', name: '🟪 Student Chitchat', id: '2150' },
+
     // { module: 'UX Principles I', name: 'Case study', id: '1479' },
     // { module: 'UX Principles I', name: 'UX Discussion Forum', id: '1504' },
     // { module: 'UX Principles I', name: 'DSD Noticeboard', id: '1674' },
@@ -11,9 +17,9 @@ export const List = [
     // { module: 'Development Principles I', name: 'Discussion forum', id: '1521' },
     // { module: 'Development Principles I', name: 'Activities', id: '1694' },
 
-    { module: 'Integrated Studio I', name: 'DSD Noticeboard', id: '1920' },
-    { module: 'Integrated Studio I', name: 'Discussion Forum', id: '1921' },
-    { module: 'Integrated Studio I', name: 'Activities', id: '1925' },
+    // { module: 'Integrated Studio I', name: 'DSD Noticeboard', id: '1920' },
+    // { module: 'Integrated Studio I', name: 'Discussion Forum', id: '1921' },
+    // { module: 'Integrated Studio I', name: 'Activities', id: '1925' },
 ] as Forum[];
 
 export interface Forum {
