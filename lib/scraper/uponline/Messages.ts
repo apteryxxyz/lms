@@ -148,7 +148,7 @@ export default class Messages extends Base {
 
             const button = await this.page.$x(`//strong[text()="${goto.name}"]`);
             if (!button.length) throw new Error(`Could not find group button ${goto.name}`);
-            await button[button.length - 1].click().then(() => this.page.waitForTimeout(5000));
+            await button[button.length - 1].click().then(() => this.page.waitForTimeout(10000));
         }
     }
 
