@@ -61,7 +61,7 @@ export default class Threads extends Base {
 
     public async goToThread(thread: PartialThread): Promise<void> {
         this.log(`Opening thread ${thread.title}...`);
-        const url = `https://uponline.education/mod/forum/discuss.php?d=${thread.id}`;
+        const url = `https://online.yoobee.ac.nz/mod/forum/discuss.php?d=${thread.id}`;
         await this.page.goto(url).then(() => this.page.waitForTimeout(3000));
     }
 
@@ -73,8 +73,8 @@ export default class Threads extends Base {
 
         const id = this.page.url().match(/discuss.php\?d=(\d+)/)?.[1] as string;
         const title = $('h1').first().text();
-        const author = $('address').first().text().trim();
-        const when = $('.forum-ago').first().text().trim();
+        const author = $('.forumpost__username').first().text().trim();
+        const when = $('.forumpost__datetime').first().text().trim();
         const body = $('.post-content-container').first().html();
         const sentAt = Util.getTimeAgo(when);
 

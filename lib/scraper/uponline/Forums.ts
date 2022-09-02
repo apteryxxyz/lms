@@ -61,7 +61,7 @@ export default class Forums extends Base {
 
     /** Go to a forums page */
     public async goToForum(forum: Forum): Promise<void> {
-        const url = `https://uponline.education/mod/forum/view.php?id=${forum.id}`;
+        const url = `https://online.yoobee.ac.nz/mod/forum/view.php?id=${forum.id}`;
         this.log(`Navigating to forum ${forum.name}`);
         await this.page.goto(url).then(() => this.page.waitForTimeout(3000));
     }
@@ -70,40 +70,19 @@ export default class Forums extends Base {
     public async listThreads(): Promise<PartialThread[]> {
         const currentId = this.getOpenedForum();
         if (!currentId) throw new Error('No forum is opened');
-        const { page } = this;
 
-        async function getInfos(): Promise<string[]> {
-            const e = await page.$$('#first-post-author-image');
-            const t = await Promise.all(e.map((e: any) => e.evaluate((n: any) => n.innerText)));
-            return t.map((y) =>
-                y
-                    .split('\n')
-                    .map((s: any) => s.trim())
-                    .filter(Boolean),
-            );
-        }
+        const container = await this.page.$('.bux-forum-main');
+        if (!container) return [];
 
-        async function getIds(): Promise<string[]> {
-            const e = await page.$$('[id="first-post-author-image"]');
-            const t = await Promise.all(e.map((e: any) => e.evaluate((n: any) => n.innerHTML)));
-            return t.map((y) => y.match(/discuss.php\?d=(\d+)/)[1]);
-        }
+        const rows = await container?.evaluate(n => Array.from(n.children).slice(1).map((c: any) => c.innerText));
+        const urls = await container?.evaluate(n => Array.from(n.children).slice(1).map((c: any) => c.href));
 
-        async function getDates(): Promise<string[]> {
-            const e = await page.$$('[id="last-post-ago"]');
-            return Promise.all(e.map((e: any) => e.evaluate((n: any) => n.innerText)));
-        }
-
-        const infos = await getInfos();
-        const ids = await getIds();
-        const dates = (await getDates()).map((d) => Util.getTimeAgo(d));
-
-        return infos
-            .map((info, i) => ({
-                id: ids[i],
-                title: info[1],
-                author: info[0],
-                updatedAt: dates[i],
+        return (rows as any[])
+            .map((r: string, i: number) => ({
+                id: urls[i].split('discuss.php?d=')[1],
+                title: r.split('\n')[0],
+                author: r.split('\n')[1],
+                updatedAt: Util.getTimeAgo(r.split('\n')[2]),
             }))
             .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
     }

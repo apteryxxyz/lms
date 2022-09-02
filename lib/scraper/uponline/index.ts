@@ -7,7 +7,7 @@ import Modules from './Modules';
 import Navigation from './Navigation';
 import Threads from './Threads';
 import Topics from './Topics';
-const Domain = 'uponline.education';
+const Domain = 'online.yoobee.ac.nz';
 
 export default class Uponline extends Base {
     /** Uponline domain */
@@ -44,7 +44,7 @@ export default class Uponline extends Base {
     public isOnCoursePage(): Promise<boolean> {
         return Promise.resolve(
             this.page.url().includes(`${Domain}/course`) ||
-                this.page.url().includes(`${Domain}/mod`),
+            this.page.url().includes(`${Domain}/mod`),
         );
     }
 
