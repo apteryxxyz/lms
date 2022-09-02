@@ -28,6 +28,16 @@ export default class Util extends null {
         Base.prototype.log(`Saved cookies to ${CookieFile}`);
     }
 
+    /** Check if running in docker */
+    public static isDocker() {
+        try {
+            fs.statSync('/.dockerenv');
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
     /** Download an image from within a page */
     public static async downloadImage(page: Page, url: string): Promise<string> {
         const base64 = await page.evaluate(async (url) => {
