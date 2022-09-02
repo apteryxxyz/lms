@@ -28,7 +28,7 @@
         "importsNotUsedAsValues": "error",
         "newLine": "lf",
         "noEmitHelpers": true,
-        "outDir": "./dist",
+        "outDir": "./build",
         "preserveConstEnums": true,
         "removeComments": true,
         "esModuleInterop": true,

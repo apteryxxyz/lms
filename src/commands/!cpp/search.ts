@@ -3,8 +3,8 @@ import { Context } from '@maclary/context';
 import { EmbedBuilder } from '@discordjs/builders';
 import fs from 'fs';
 
-const Language = fs.readFileSync('src/data/cpplang.txt', 'utf8').split(/\r?\n/);
-const Library = fs.readFileSync('src/data/cpplibs.txt', 'utf-8').split(/\r?\n/);
+const Language = fs.readFileSync('assets/cpplang.txt', 'utf8').split(/\r?\n/);
+const Library = fs.readFileSync('assets/cpplibs.txt', 'utf-8').split(/\r?\n/);
 
 export default class Search extends Command {
     public constructor() {

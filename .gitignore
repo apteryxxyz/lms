@@ -4,16 +4,10 @@ package-lock.json
 
 # Secrets
 .env
-cookies.json
 cache/
 
 # Builds
-dist/
-*.tgz
-**/*.js
-**/*.mjs
-!**/**/test/*.js
-!.*rc.js
+build/
 *.png
 
 # Yarn

@@ -1,15 +1,15 @@
 {
-    "name": "lms",
+    "name": "lms-scraper",
     "version": "1.0.0",
     "description": "Discord bot that scraps the LMS website for notifications",
-    "main": "dist/src/index.js",
+    "main": "./build/src/index.js",
     "repository": "https://github.com/apteryxxyz/lms",
     "author": "ApteryxXYZ",
     "license": "CC-BY-NC-ND-4.0",
     "private": true,
     "packageManager": "yarn@3.2.1",
     "scripts": {
-        "clean": "rimraf dist",
+        "clean": "rimraf build",
         "build": "tsc && tsc-alias",
         "dev": "ts-node -r tsconfig-paths/register src/index.ts",
         "lint": "eslint {src,lib} --fix",

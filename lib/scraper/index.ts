@@ -29,10 +29,11 @@ export default class Scraper extends Base {
             const options =
                 process.env.NODE_ENV === 'development'
                     ? { headless: false }
+                    // ? { pipe: true, args: ['--disable-gpu', '--no-sandbox', '--disable-extensions'] }
                     : {
-                          pipe: true,
-                          args: ['--disable-gpu', '--no-sandbox', '--disable-extensions'],
-                      };
+                        pipe: true,
+                        args: ['--disable-gpu', '--no-sandbox', '--disable-extensions'],
+                    };
             this._browser = await puppeteer.launch(options);
         }
 

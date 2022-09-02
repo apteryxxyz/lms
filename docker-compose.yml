@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  bot:
+    container_name: lms-scraper
+    build:
+      context: ./
+      dockerfile: ./.docker/app/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./cache:/app/cache
+      - ./assets:/app/assets
+    restart: on-failure:3

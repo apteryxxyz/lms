@@ -4,7 +4,7 @@ import Uponline from './uponline';
 import Microsoft from './microsoft';
 import Base from './Base';
 
-const CookieFile = 'cookies.json';
+const CookieFile = 'cache/cookies.json';
 const SecondsAgo = /(\d+) seconds? ago/;
 const MinutesAgo = /(\d+) minutes? ago/;
 const HoursAgo = /(\d+) hours? ago/;
@@ -24,7 +24,7 @@ export default class Util extends null {
     public static async saveCookies(page: Page): Promise<void> {
         const domains = [`https://${Uponline.Domain}`, `https://login.${Microsoft.Domain}`];
         const cookies = await page.cookies(...domains);
-        fs.writeFileSync(CookieFile, JSON.stringify(cookies));
+        fs.writeFileSync(CookieFile, JSON.stringify(cookies, null, 4));
         Base.prototype.log(`Saved cookies to ${CookieFile}`);
     }
 

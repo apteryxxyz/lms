@@ -2580,9 +2580,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lms@workspace:.":
+"lms-scraper@workspace:.":
   version: 0.0.0-use.local
-  resolution: "lms@workspace:."
+  resolution: "lms-scraper@workspace:."
   dependencies:
     "@apteryxxyz/html-translator": ^1.2.2
     "@discordjs/builders": ^1.2.0
