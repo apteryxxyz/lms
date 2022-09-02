@@ -28,7 +28,7 @@
         "fs-extra": "^10.1.0",
         "fuse.js": "^6.6.2",
         "maclary": "^0.4.3",
-        "moment": "^2.29.3",
+        "moment": "^2.29.4",
         "node-schedule": "^2.1.0",
         "puppeteer": "^14.1.0"
     },
