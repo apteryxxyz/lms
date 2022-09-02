@@ -25,7 +25,7 @@ const client = new MaclaryClient({
 container.client = client;
 container.scraper = new Scraper();
 
-const token = process.env.DISCORD_TOKEN!;
+const token = process.env.DISCORD_TOKEN as string;
 void container.client.login(token);
 void container.scraper.setup();
 

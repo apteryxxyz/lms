@@ -12,7 +12,7 @@
         "clean": "rimraf dist",
         "build": "tsc && tsc-alias",
         "dev": "ts-node -r tsconfig-paths/register src/index.ts",
-        "lint": "eslint {src,lib} --ext ts",
+        "lint": "eslint {src,lib} --fix",
         "start": "node ."
     },
     "dependencies": {
@@ -30,15 +30,16 @@
         "maclary": "^0.4.3",
         "moment": "^2.29.3",
         "node-schedule": "^2.1.0",
-        "puppeteer": "^14.1.0",
-        "tsconfig-paths": "^4.1.0"
+        "puppeteer": "^14.1.0"
     },
     "devDependencies": {
         "@types/fs-extra": "^9.0.13",
         "@types/node-schedule": "^2.1.0",
         "eslint": "^8.15.0",
+        "eslint-config-apteryx": "^1.0.1",
         "rimraf": "^3.0.2",
         "tsc-alias": "^1.6.7",
+        "tsconfig-paths": "^4.1.0",
         "typescript": "^4.6.4"
     },
     "eslintConfig": {

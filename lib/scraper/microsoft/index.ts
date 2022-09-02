@@ -7,6 +7,9 @@ const Domain = 'microsoftonline.com';
 
 export default class Microsoft extends Base {
     /** Microsoft domain */
+    public static Domain = Domain;
+
+    /** Microsoft domain */
     public Domain = Domain;
 
     public constructor(scraper: Scraper) {
@@ -53,7 +56,4 @@ export default class Microsoft extends Base {
 
         return true;
     }
-
-    /** Microsoft domain */
-    public static Domain = Domain;
 }

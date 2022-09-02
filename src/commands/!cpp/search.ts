@@ -38,7 +38,7 @@ export default class Search extends Command {
     }
 
     public async sharedRun(context: Context, query: string): Promise<void> {
-        query = query.toLowerCase().replace(/std/g, '').replace(/\:\:/g, ' ').replace(/\//g, ' ');
+        query = query.toLowerCase().replace(/std/g, '').replace(/::/g, ' ').replace(/\//g, ' ');
 
         const rawLang = Language.map((l) => (l.includes(query) ? l.split(' ') : null))
             .filter((l) => l !== null)

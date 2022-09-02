@@ -11,6 +11,9 @@ const Domain = 'online.yoobee.ac.nz';
 
 export default class Uponline extends Base {
     /** Uponline domain */
+    public static Domain = Domain;
+
+    /** Uponline domain */
     public Domain = Domain;
     /** Forums handler */
     public forums: Forums;
@@ -86,7 +89,4 @@ export default class Uponline extends Base {
         await Util.saveCookies(this.page);
         return true;
     }
-
-    /** Uponline domain */
-    public static Domain = Domain;
 }
