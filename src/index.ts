@@ -9,9 +9,9 @@ const client = new MaclaryClient({
     intents: ['Guilds', 'GuildMessages', 'MessageContent'],
     partials: [Partials.Channel, Partials.GuildMember, Partials.Reaction],
     defaultPrefix: ';',
-    developmentGuildId: '829836158007115806',
+    developmentGuildId: '990277337352372254',
     developmentPrefix: 'd;',
-    logger: new Loggr({ timestampFormat: 'YYYY/MM/DD HH:mm:ss' }),
+    logger: new Loggr({ timestampFormat: 'YYYY/MM/DD HH:mm:ss' }).setGlobal(),
     presence: {
         activities: [
             {

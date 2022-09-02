@@ -8,7 +8,7 @@ export default class Search extends Command {
     public constructor() {
         super({
             type: Command.Type.ChatInput,
-            kinds: [Command.Kind.Prefix, Command.Kind.Interaction],
+            kinds: [Command.Kind.Prefix, Command.Kind.Slash],
             name: 'search',
             description: 'Search the LMS for a query.',
             options: [

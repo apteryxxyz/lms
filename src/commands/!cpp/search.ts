@@ -10,7 +10,7 @@ export default class Search extends Command {
     public constructor() {
         super({
             type: Command.Type.ChatInput,
-            kinds: [Command.Kind.Prefix, Command.Kind.Interaction],
+            kinds: [Command.Kind.Prefix, Command.Kind.Slash],
             name: 'search',
             description: 'Search for a C++ item on cppreference.',
             options: [
@@ -65,8 +65,8 @@ export default class Search extends Command {
             .setTimestamp()
             .setDescription(
                 (language.length ? '**Language Results**\n' + language.join('\n') : '') +
-                    (library.length ? '\n\n**Library Results**\n' + library.join('\n') : '') ||
-                    null,
+                (library.length ? '\n\n**Library Results**\n' + library.join('\n') : '') ||
+                null,
             )
             .addFields([
                 {
