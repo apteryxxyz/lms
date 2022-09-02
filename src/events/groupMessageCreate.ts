@@ -6,8 +6,6 @@ import type { Group, Message } from '@lib/scraper/uponline/Messages';
 import Util from '@lib/scraper/Util';
 
 const ChannelID = process.env.MESSAGE_ID as string;
-const TrainerName = process.env.TRAINER_NAME as string;
-const MentionID = process.env.MENTION_ID as string;
 
 export default class GroupMessage extends Event {
     public constructor() {
@@ -21,14 +19,13 @@ export default class GroupMessage extends Event {
     public override async handle(group: Group, message: Message): Promise<any> {
         const channel = await container.client.channels.fetch(ChannelID);
         const header = `Sent by ${message.author} in ${group.name}`;
-        const content = message.author === TrainerName ? `<@&${MentionID}>` : null;
 
         const embed = new EmbedBuilder()
             .setDescription(`${header}\n\n${Util.cleanString(message.content)}`)
             .setColor(0xea4f3d)
             .setTimestamp(message.sentAt);
 
-        const payload = { embeds: [embed], content };
+        const payload = { embeds: [embed] };
         return (channel as GuildTextBasedChannel).send(payload);
     }
 }
