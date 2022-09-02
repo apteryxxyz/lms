@@ -48,7 +48,7 @@ export default class ThreadCreate extends Event {
         return (channel as GuildTextBasedChannel)
             .send({
                 embeds: [embed],
-                content: `<@&${MentionID}>`,
+                content: process.env.MENTION_THREADS === 'true' ? `<@&${MentionID}>` : null,
                 files: firstFiles,
                 components: [actionRow],
             } as any)

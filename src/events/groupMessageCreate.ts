@@ -6,6 +6,7 @@ import type { Group, Message } from '@lib/scraper/uponline/Messages';
 import Util from '@lib/scraper/Util';
 
 const ChannelID = process.env.MESSAGE_ID as string;
+const MentionID = process.env.MENTION_ID as string;
 
 export default class GroupMessage extends Event {
     public constructor() {
@@ -25,7 +26,9 @@ export default class GroupMessage extends Event {
             .setColor(0xea4f3d)
             .setTimestamp(message.sentAt);
 
-        const payload = { embeds: [embed] };
-        return (channel as GuildTextBasedChannel).send(payload);
+        return (channel as GuildTextBasedChannel).send({
+            content: process.env.MENTION_THREADS === 'true' ? `<@&${MentionID}>` : null,
+            embeds: [embed]
+        });
     }
 }

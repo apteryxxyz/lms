@@ -25,12 +25,8 @@ const client = new MaclaryClient({
 container.client = client;
 container.scraper = new Scraper();
 
-const token =
-    process.env.MACLARY_ENV === 'development'
-        ? process.env.DISCORD_DEV_TOKEN
-        : process.env.DISCORD_PROD_TOKEN;
-
-void container.client.login(token as string);
+const token = process.env.DISCORD_TOKEN!;
+void container.client.login(token);
 void container.scraper.setup();
 
 export default container;
