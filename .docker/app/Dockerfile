@@ -1,17 +1,5 @@
 # The builder runner
-FROM node:18-alpine AS builder
-WORKDIR /app
-
-# Install dependencies
-COPY package.json .
-RUN npm install
-
-# Build the app
-COPY . .
-RUN npm run build
-
-# The production runner
-FROM node:18-alpine AS production
+FROM node:18-alpine
 WORKDIR /app
 
 # Install chromium
@@ -27,10 +15,13 @@ RUN apk add --no-cache \
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-# Copy the required files
-COPY --from=builder /app/package.json .
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/build ./build
+# Install dependencies
+COPY package.json .
+RUN npm install
+
+# Build the app
+COPY . .
+RUN npm run build
 
 # Run the app
 CMD ["npm", "run", "start"]
