@@ -136,7 +136,9 @@ export default class Messages extends Base {
         this.log('Toggling group...');
 
         if (current) {
-            const back = await this.page.$('[aria-label="Back to Messages overview"]');
+            // Sometimes can't find back button, so wait an extra 5 seconds in case it hasn't loaded
+            await this.page.waitForTimeout(5000);
+            const back = await this.page.$('.icon-back-in-drawer');
             if (!back) throw new Error('Could not find back button');
             await back.click();
         }
