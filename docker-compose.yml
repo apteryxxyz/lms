@@ -11,4 +11,4 @@ services:
     volumes:
       - ./cache:/app/cache
       - ./assets:/app/assets
-    restart: on-failure:3
+    restart: always
