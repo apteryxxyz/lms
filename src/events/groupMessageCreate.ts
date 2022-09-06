@@ -27,7 +27,7 @@ export default class GroupMessage extends Event {
             .setTimestamp(message.sentAt);
 
         return (channel as GuildTextBasedChannel).send({
-            content: process.env.MENTION_THREADS === 'true' ? `<@&${MentionID}>` : null,
+            content: process.env.MENTION_MESSAGES === 'true' ? `<@&${MentionID}>` : null,
             embeds: [embed]
         });
     }
