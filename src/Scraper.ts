@@ -56,9 +56,10 @@ export default class ScraperClient extends EventEmitter {
             this.client?.log('Checking for new messages...');
             await this.checkMessages();
             this.client?.log('Finished process');
-        } catch (error) {
+        } catch (error: any) {
+            await this.client?.debug(error.message.replaceAll(' ', '_'));
             await this.stop();
-            throw error;
+            console.error(error);
         }
         await this.stop();
     }
@@ -115,7 +116,10 @@ export default class ScraperClient extends EventEmitter {
     public async checkForums(): Promise<void> {
         const newThreads = [];
         const list = this.client?.uponline?.forums.list as Forum[];
-        for (const forum of list) newThreads.push(...(await this.getNewForumThreads(forum)));
+        for (const forum of list) {
+            const threads = await this.getNewForumThreads(forum);
+            newThreads.push(...threads);
+        }
 
         // Sort threads by date
         const fn = (a: any, b: any) => a.sentAt - b.sentAt;
@@ -153,6 +157,7 @@ export default class ScraperClient extends EventEmitter {
             await Database.saveThreadContent(thread);
             fullThreads.push({ ...thread, forum });
         }
+
         return fullThreads;
     }
 }
