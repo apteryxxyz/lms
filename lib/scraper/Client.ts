@@ -4,7 +4,7 @@ import Uponline from './uponline';
 import Microsoft from './microsoft';
 import Util from './Util';
 
-export default class Scraper extends Base {
+export default class Client extends Base {
     /** The puppeteer browser */
     public _browser?: Browser;
     /** The puppeteer page */
@@ -17,7 +17,7 @@ export default class Scraper extends Base {
     public hasInitialised = false;
 
     public constructor() {
-        super({} as Scraper);
+        super({} as Client);
         this.scraper = this;
     }
 

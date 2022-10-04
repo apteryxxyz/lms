@@ -1,5 +1,5 @@
 import { Command } from 'maclary';
-import Database from '@src/Database';
+import Database from '@scraper/Database';
 import { Context } from '@maclary/context';
 import Fuse from 'fuse.js';
 import { EmbedBuilder } from '@discordjs/builders';

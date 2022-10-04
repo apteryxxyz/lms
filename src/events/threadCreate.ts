@@ -2,9 +2,9 @@ import { container, Event } from 'maclary';
 import { AttachmentBuilder, ButtonStyle, GuildTextBasedChannel } from 'discord.js';
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from '@discordjs/builders';
 import { Events } from '../Scraper';
-import type { Forum } from '@lib/scraper/uponline/Forums';
-import type { Thread } from '@lib/scraper/uponline/Threads';
-import Util from '@lib/scraper/Util';
+import type { Forum } from '@scraper/uponline/Forums';
+import type { Thread } from '@scraper/uponline/Threads';
+import Util from '@scraper/Util';
 
 const ChannelID = process.env.THREAD_ID as string;
 const MentionID = process.env.MENTION_ID as string;

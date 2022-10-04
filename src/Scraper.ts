@@ -2,15 +2,15 @@ import EventEmitter from 'node:events';
 import { scheduleJob, Job } from 'node-schedule';
 import { container } from 'maclary';
 
-import Scraper from '@lib/scraper';
-import type Messages from '@lib/scraper/uponline/Messages';
-import Database from './Database';
-import type { Forum } from '@lib/scraper/uponline/Forums';
-import type Forums from '@lib/scraper/uponline/Forums';
-import type { Thread } from '@lib/scraper/uponline/Threads';
-import type Threads from '@lib/scraper/uponline/Threads';
-import type Modules from '@lib/scraper/uponline/Modules';
-import type Topics from '@lib/scraper/uponline/Topics';
+import Client from '@scraper/Client';
+import type Messages from '@scraper/uponline/Messages';
+import Database from '@scraper/Database';
+import type { Forum } from '@scraper/uponline/Forums';
+import type Forums from '@scraper/uponline/Forums';
+import type { Thread } from '@scraper/uponline/Threads';
+import type Threads from '@scraper/uponline/Threads';
+import type Modules from '@scraper/uponline/Modules';
+import type Topics from '@scraper/uponline/Topics';
 const CronExpression = '0,20,40 8-22 * * 1-6';
 
 export const Events = {
@@ -18,9 +18,9 @@ export const Events = {
     ThreadCreate: 'threadCreate',
 };
 
-export default class ScraperClient extends EventEmitter {
+export default class Scraper extends EventEmitter {
     /** The scrapers client */
-    public client?: Scraper;
+    public client?: Client;
     /** The node-schedule cron job */
     public job?: Job;
     /** The debug interval timer */
@@ -33,7 +33,7 @@ export default class ScraperClient extends EventEmitter {
 
     /** Start the client */
     public async start(): Promise<void> {
-        this.client = new Scraper();
+        this.client = new Client();
         await this.client.initialise();
         await this.client.uponline?.login();
         await this.client.page.waitForTimeout(3000);
