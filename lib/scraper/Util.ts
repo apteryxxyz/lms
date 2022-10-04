@@ -40,10 +40,10 @@ export default class Util extends null {
 
     /** Download an image from within a page */
     public static async downloadImage(page: Page, url: string): Promise<string> {
-        const base64 = await page.evaluate(async (url) => {
+        const base64 = await page.evaluate(async url => {
             const response = await fetch(url);
             const blob = await response.blob();
-            return new Promise((resolve) => {
+            return new Promise(resolve => {
                 const reader = new FileReader();
                 reader.onloadend = () => resolve(reader.result);
                 reader.readAsDataURL(blob);

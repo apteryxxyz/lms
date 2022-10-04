@@ -28,7 +28,7 @@ export default class GroupMessage extends Event {
 
         return (channel as GuildTextBasedChannel).send({
             content: process.env.MENTION_MESSAGES === 'true' ? `<@&${MentionID}>` : null,
-            embeds: [embed]
+            embeds: [embed],
         });
     }
 }

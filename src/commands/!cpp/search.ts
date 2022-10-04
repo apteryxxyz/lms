@@ -31,7 +31,7 @@ export default class Search extends Command {
 
     public override async onMessage(
         message: Command.Message,
-        args: Command.Arguments,
+        args: Command.Arguments
     ): Promise<void> {
         const query = args.rest();
         return this.sharedRun(new Context(message), query);
@@ -40,23 +40,21 @@ export default class Search extends Command {
     public async sharedRun(context: Context, query: string): Promise<void> {
         query = query.toLowerCase().replace(/std/g, '').replace(/::/g, ' ').replace(/\//g, ' ');
 
-        const rawLang = Language.map((l) => (l.includes(query) ? l.split(' ') : null))
-            .filter((l) => l !== null)
+        const rawLang = Language.map(l => (l.includes(query) ? l.split(' ') : null))
+            .filter(l => l !== null)
             .slice(0, 10) as string[][];
-        const rawLib = Library.map((l) => (l.includes(query) ? l.split(' ') : null))
-            .filter((l) => l !== null)
+        const rawLib = Library.map(l => (l.includes(query) ? l.split(' ') : null))
+            .filter(l => l !== null)
             .slice(0, 10) as string[][];
 
         const makeUrl = (item: string[]) => `https://en.cppreference.com/w/cpp/${item.join('/')}`;
-        const language = rawLang.map(
-            (l) => `[\`(${l[0]}) ${l.slice(1).join('/')}\`](${makeUrl(l)})`,
-        );
+        const language = rawLang.map(l => `[\`(${l[0]}) ${l.slice(1).join('/')}\`](${makeUrl(l)})`);
         const library = rawLib.map(
-            (l) => `[\`(${l[0]}) std::${l.slice(1).join('::')}\`](${makeUrl(l)})`,
+            l => `[\`(${l[0]}) std::${l.slice(1).join('::')}\`](${makeUrl(l)})`
         );
 
         const searchUrl = `https://en.cppreference.com/mwiki/index.php?title=Special%3ASearch&search=${encodeURI(
-            query,
+            query
         )}`;
 
         const embed = new EmbedBuilder()
@@ -65,8 +63,7 @@ export default class Search extends Command {
             .setTimestamp()
             .setDescription(
                 (language.length ? '**Language Results**\n' + language.join('\n') : '') +
-                (library.length ? '\n\n**Library Results**\n' + library.join('\n') : '') ||
-                null,
+                    (library.length ? '\n\n**Library Results**\n' + library.join('\n') : '') || null
             )
             .addFields([
                 {

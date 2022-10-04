@@ -42,24 +42,24 @@ export default class Topics extends Base {
         if (!element) throw new Error('Module element not found');
         const list = await element.$$('[class="upds-course-nav__item"]');
 
-        const levelOne = await Promise.all(list.map((e) => e.evaluate((i) => i.innerText)));
-        const topLevel = levelOne.filter((i) => Number.parseInt(i.at(0), 10) > 0);
-        const levelTwo = await Promise.all(list.map((e) => e.evaluate((i) => i.textContent)));
-        const subLevel = levelTwo.filter((s) => s.replace(/[^0-9]/g, '').length === 3);
+        const levelOne = await Promise.all(list.map(e => e.evaluate(i => i.innerText)));
+        const topLevel = levelOne.filter(i => Number.parseInt(i.at(0), 10) > 0);
+        const levelTwo = await Promise.all(list.map(e => e.evaluate(i => i.textContent)));
+        const subLevel = levelTwo.filter(s => s.replace(/[^0-9]/g, '').length === 3);
 
         const levels = [...topLevel, ...subLevel].sort((a, b) => a.localeCompare(b));
         const topicObjects = levels
-            .map((l) => l.trim())
-            .map((l) => {
+            .map(l => l.trim())
+            .map(l => {
                 const ls = l.split(' ');
                 const [index, title] = [ls[0], ls.slice(1).join(' ')];
                 if (index.length > 3) return null;
                 const subtopics = subLevel
-                    .filter((s) => s.startsWith(`${index}.`))
-                    .filter((s) => s.replace(/[^0-9]/g, '').length === 3);
+                    .filter(s => s.startsWith(`${index}.`))
+                    .filter(s => s.replace(/[^0-9]/g, '').length === 3);
                 return { index, title, subtopics };
             })
-            .filter((i) => i !== null) as { index: string; title: string; subtopics: string[] }[];
+            .filter(i => i !== null) as { index: string; title: string; subtopics: string[] }[];
 
         const topics = [];
         for (const t of topicObjects) {
@@ -82,13 +82,13 @@ export default class Topics extends Base {
         const { markdown } = h2m(html);
 
         const s = subtopics
-            .map((s) => s.split(' ').slice(1).join(' '))
-            .map((s) => s.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'));
+            .map(s => s.split(' ').slice(1).join(' '))
+            .map(s => s.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'));
         const regex = new RegExp(`\\n\\n\\*\\*(${s.join('|')})\\*\\*`, 'g');
         const sections = markdown.split(regex);
         sections.shift();
         const chunks = [...Array(Math.ceil(sections.length / 2))]
-            .map((_) => sections.splice(0, 2))
+            .map(_ => sections.splice(0, 2))
             .map(([n, c]) => [n, c.trim()])
             .filter(([, c]) => c.length > 0);
 

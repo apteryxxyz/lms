@@ -74,8 +74,16 @@ export default class Forums extends Base {
         const container = await this.page.$('.bux-forum-main');
         if (!container) return [];
 
-        const rows = await container?.evaluate(n => Array.from(n.children).slice(1).map((c: any) => c.innerText));
-        const urls = await container?.evaluate(n => Array.from(n.children).slice(1).map((c: any) => c.href));
+        const rows = await container?.evaluate(n =>
+            Array.from(n.children)
+                .slice(1)
+                .map((c: any) => c.innerText)
+        );
+        const urls = await container?.evaluate(n =>
+            Array.from(n.children)
+                .slice(1)
+                .map((c: any) => c.href)
+        );
 
         return (rows as any[])
             .map((r: string, i: number) => ({

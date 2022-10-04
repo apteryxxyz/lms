@@ -7,7 +7,7 @@ import type { Topic } from '@lib/scraper/uponline/Topics';
 async function readFile(path: string, def: string): Promise<string> {
     path = path.replace(/=/g, '');
     await fs.ensureFile(path);
-    return fs.readFile(path, 'utf8').then((d) => d || def);
+    return fs.readFile(path, 'utf8').then(d => d || def);
 }
 
 async function writeFile(path: string, data: string): Promise<void> {

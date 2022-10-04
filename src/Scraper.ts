@@ -76,7 +76,7 @@ export default class ScraperClient extends EventEmitter {
             topicObjects.push(...topicList);
         }
 
-        await Promise.all(topicObjects.map((t) => Database.saveModuleTopic(t)));
+        await Promise.all(topicObjects.map(t => Database.saveModuleTopic(t)));
     }
 
     /** Check for new messages in the LMS */
@@ -86,14 +86,14 @@ export default class ScraperClient extends EventEmitter {
         const categoryList = await messages.getCategoryList();
         await messages.toggleCategory(categoryList[1]);
         const groupsList = await messages.getGroupList();
-        const group = groupsList.find((g) => g.name.includes('Software'));
+        const group = groupsList.find(g => g.name.includes('Software'));
         if (!group) throw new Error('Could not find the Software group');
         await messages.toggleGroup(group);
 
         // Filter the messages in the group by if they are new
         const gmMessages = await messages.getMessageList();
         const dmMessages = await Database.getMessages(group);
-        const newMessages = gmMessages.filter((msg) => {
+        const newMessages = gmMessages.filter(msg => {
             const fn = (m: any) => m.author === msg.author && m.content === msg.content;
             return !dmMessages.find(fn);
         });
@@ -136,7 +136,7 @@ export default class ScraperClient extends EventEmitter {
 
         const partialThreads = await forums.listThreads();
         const dbThreads = await Database.getForumThreads(forum);
-        const newThreads = partialThreads.filter((thread) => {
+        const newThreads = partialThreads.filter(thread => {
             const fn = (t: any) => t.title === thread.title;
             return !dbThreads.find(fn);
         });

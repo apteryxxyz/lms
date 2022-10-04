@@ -29,7 +29,7 @@ export default class Search extends Command {
 
     public override async onMessage(
         message: Command.Message,
-        args: Command.Arguments,
+        args: Command.Arguments
     ): Promise<void> {
         const query = args.rest();
         return this.sharedRun(new Context(message), query);
@@ -37,7 +37,7 @@ export default class Search extends Command {
 
     public async sharedRun(context: Context, query: string): Promise<void> {
         const topics = await Database.getAllModuleTopics();
-        const subtopics = topics.map((t) => t.subtopics).flat();
+        const subtopics = topics.map(t => t.subtopics).flat();
         const fuse = new Fuse(subtopics, {
             includeMatches: true,
             includeScore: true,

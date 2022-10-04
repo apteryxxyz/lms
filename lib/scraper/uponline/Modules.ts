@@ -31,10 +31,10 @@ export default class Modules extends Base {
         const getOpen = (e: any) => e.classList.contains('active');
 
         const els = await this.page.$$('[id^=nav-module-]');
-        const ids = await Promise.all(els.map((e) => e.evaluate((i) => i.getAttribute('id'))));
-        const names = await Promise.all(els.map((e) => e.evaluate(getName)));
-        const openables = await Promise.all(els.map((e) => e.evaluate(getOpenable)));
-        const opens = await Promise.all(els.map((e) => e.evaluate(getOpen)));
+        const ids = await Promise.all(els.map(e => e.evaluate(i => i.getAttribute('id'))));
+        const names = await Promise.all(els.map(e => e.evaluate(getName)));
+        const openables = await Promise.all(els.map(e => e.evaluate(getOpenable)));
+        const opens = await Promise.all(els.map(e => e.evaluate(getOpen)));
 
         return ids.map((id, i) => {
             let name = names[i];
@@ -47,7 +47,7 @@ export default class Modules extends Base {
 
     public async getOpenedModule(): Promise<Module | undefined> {
         const modules = await this.getModuleList();
-        return modules.find((m) => m.isOpen);
+        return modules.find(m => m.isOpen);
     }
 
     public async toggleModule(mod?: Module): Promise<void> {

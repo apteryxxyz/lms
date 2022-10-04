@@ -68,7 +68,7 @@ export default class Threads extends Base {
     public async getThreadContent(): Promise<Thread> {
         const core = await this.page.$('[data-region-content*="-post-core"]');
         if (!core) throw new Error('Could not find thread content');
-        const html = await core.evaluate((n) => n.innerHTML);
+        const html = await core.evaluate(n => n.innerHTML);
         const $ = cheerio.load(html);
 
         const id = this.page.url().match(/discuss.php\?d=(\d+)/)?.[1] as string;
@@ -112,7 +112,7 @@ export default class Threads extends Base {
         const $ = cheerio.load(html);
 
         const header = $('header').first().text().split('\n');
-        const items = header.map((t) => t.trim()).filter(Boolean);
+        const items = header.map(t => t.trim()).filter(Boolean);
         const [title, when, author] = items;
         const sentAt = Util.getTimeAgo(when);
         const content = $('div.text_to_html').first().text();

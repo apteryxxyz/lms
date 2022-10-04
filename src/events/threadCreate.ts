@@ -52,6 +52,6 @@ export default class ThreadCreate extends Event {
                 files: firstFiles,
                 components: [actionRow],
             } as any)
-            .then((m) => (files.length > 1 ? m.reply({ files }) : null));
+            .then(m => (files.length > 1 ? m.reply({ files }) : null));
     }
 }

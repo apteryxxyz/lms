@@ -27,8 +27,12 @@ export default class Scraper extends Base {
             this.log('Launching browser...');
 
             const devOptions = { headless: false };
-            const prodOptions = { pipe: true, args: ['--disable-gpu', '--no-sandbox', '--disable-extensions'] };
-            const options = Util.isDocker() || process.env.NODE_ENV === 'production' ? prodOptions : devOptions;
+            const prodOptions = {
+                pipe: true,
+                args: ['--disable-gpu', '--no-sandbox', '--disable-extensions'],
+            };
+            const options =
+                Util.isDocker() || process.env.NODE_ENV === 'production' ? prodOptions : devOptions;
             this._browser = await puppeteer.launch(options);
         }
 

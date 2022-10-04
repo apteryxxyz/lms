@@ -76,7 +76,7 @@ export default class Messages extends Base {
     /** Get the currently opened category */
     public async getOpenedCategory(): Promise<Category | undefined> {
         const categories = await this.getCategoryList();
-        return categories.find((c) => c.isOpen);
+        return categories.find(c => c.isOpen);
     }
 
     /** Toggles a category */
@@ -107,11 +107,11 @@ export default class Messages extends Base {
         const groups = await parent.$$('.bux_msg_line');
         if (!groups.length) throw new Error('No groups in category found');
 
-        const contents = await Promise.all(groups.map((e) => e.evaluate((i) => i.innerText)));
-        const cleaned = contents.map((c) => c.trim().replace(/ {2,}/g, ''));
-        const splited = cleaned.map((c) => c.trim().split('\n').filter(Boolean));
+        const contents = await Promise.all(groups.map(e => e.evaluate(i => i.innerText)));
+        const cleaned = contents.map(c => c.trim().replace(/ {2,}/g, ''));
+        const splited = cleaned.map(c => c.trim().split('\n').filter(Boolean));
 
-        return splited.map((rest) => {
+        return splited.map(rest => {
             const name = rest.shift() as string;
             const isTrainer = rest[0] === 'Trainer';
             return { name, isTrainer };
@@ -120,11 +120,11 @@ export default class Messages extends Base {
 
     public async getOpenedGroup(): Promise<Group | undefined> {
         const element = await this.page.$('[data-action="view-group-info"]');
-        const offset = await element?.evaluate((e) => e.offsetParent);
+        const offset = await element?.evaluate(e => e.offsetParent);
         if (!element || !offset) return undefined;
 
         const [name, isTrainer] = await element
-            .evaluate((e) => e.textContent.trim().split(/[\n ]{2,}/))
+            .evaluate(e => e.textContent.trim().split(/[\n ]{2,}/))
             .then(([t, i]) => [t, i === 'Trainer']);
         return { name, isTrainer };
     }
@@ -145,7 +145,7 @@ export default class Messages extends Base {
 
         if (group) {
             const groups = await this.getGroupList();
-            const goto = groups.find((g) => g.name === group.name);
+            const goto = groups.find(g => g.name === group.name);
             if (!goto) throw new Error(`Could not find group ${group.name}`);
 
             const button = await this.page.$x(`//strong[text()="${goto.name}"]`);
@@ -158,11 +158,11 @@ export default class Messages extends Base {
     public async getMessageList(): Promise<Message[]> {
         const containers = await this.page.$$('[data-region="day-container"]');
         const getTextContent = (c: any) => c.evaluate((e: any) => e.textContent);
-        const sections = (await Promise.all(containers.map(getTextContent))).map((c) =>
+        const sections = (await Promise.all(containers.map(getTextContent))).map(c =>
             c
                 .split('\n\n')
                 .map((s: any) => s.trim())
-                .filter(Boolean),
+                .filter(Boolean)
         );
 
         const messages: Message[] = [];
