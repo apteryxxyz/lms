@@ -1,5 +1,5 @@
 import Base from '../Base';
-import type Scraper from '..';
+import type Scraper from '../Client';
 
 const Email = process.env.MICROSOFT_EMAIL as string;
 const Password = process.env.MICROSOFT_PASSWORD as string;

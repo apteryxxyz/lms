@@ -1,5 +1,5 @@
 import Base from '../Base';
-import type Scraper from '..';
+import type Scraper from '../Client';
 import Util from '../Util';
 import Forums from './Forums';
 import Messages from './Messages';

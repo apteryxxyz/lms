@@ -1,5 +1,5 @@
 import type { Browser, Page } from 'puppeteer';
-import type Scraper from '.';
+import type Scraper from './Client';
 
 export default abstract class Base {
     public scraper: Scraper;
