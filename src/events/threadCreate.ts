@@ -19,12 +19,13 @@ export default class ThreadCreate extends Event {
     }
 
     public override async handle(forum: Forum, thread: Thread): Promise<any> {
-        const channel = await container.client.channels.fetch(ChannelID);
+        const channel = (await container.client.channels.fetch(ChannelID)) as GuildTextBasedChannel;
         const url = `https://online.yoobee.ac.nz/mod/forum/discuss.php?d=${thread.id}`;
         const header = `Sent by ${thread.author} in ${forum.module}, ${forum.name}`;
         const files = thread.images.map(({ base64 }, i) => {
             const buff = Buffer.from(base64.split(',')[1], 'base64');
-            return new AttachmentBuilder(buff).setName(`${i}.png`);
+            const ext = base64.substring('data:image/'.length, base64.indexOf(';base64'));
+            return new AttachmentBuilder(buff).setName(`${i}.${ext}`);
         });
 
         let description = thread.content;
@@ -42,16 +43,16 @@ export default class ThreadCreate extends Event {
             .setURL(url)
             .setStyle(ButtonStyle.Link);
 
-        const actionRow = new ActionRowBuilder().addComponents([goToThread]);
+        const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents([goToThread]);
 
         const firstFiles = files.length === 1 ? files : [];
-        return (channel as GuildTextBasedChannel)
+        return channel
             .send({
                 embeds: [embed],
                 content: process.env.MENTION_THREADS === 'true' ? `<@&${MentionID}>` : null,
                 files: firstFiles,
                 components: [actionRow],
-            } as any)
+            })
             .then(m => (files.length > 1 ? m.reply({ files }) : null));
     }
 }
