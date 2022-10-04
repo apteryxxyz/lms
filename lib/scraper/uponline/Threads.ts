@@ -62,7 +62,9 @@ export default class Threads extends Base {
     public async goToThread(thread: PartialThread): Promise<void> {
         this.log(`Opening thread ${thread.title}...`);
         const url = `https://online.yoobee.ac.nz/mod/forum/discuss.php?d=${thread.id}`;
-        await this.page.goto(url).then(() => this.page.waitForTimeout(3000));
+        await this.page
+            .goto(url, { timeout: 30000 * 5 })
+            .then(() => this.page.waitForTimeout(10000));
     }
 
     public async getThreadContent(): Promise<Thread> {
