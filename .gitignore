@@ -4,7 +4,11 @@ package-lock.json
 
 # Secrets
 .env
+
+# Data
 cache/
+data/
+output/
 
 # Builds
 build/

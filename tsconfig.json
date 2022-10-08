@@ -19,7 +19,8 @@
         "resolveJsonModule": true,
         "baseUrl": ".",
         "paths": {
-            "@scraper/*": ["./lib/scraper/*"]
+            "@scraper/*": ["./lib/scraper/*"],
+            "@groups/*": ["./lib/groups/*"]
         },
         // Emit
         "declaration": true,

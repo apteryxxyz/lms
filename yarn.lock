@@ -261,10 +261,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cheerio@npm:0.22.0":
-  version: 0.22.0
-  resolution: "@types/cheerio@npm:0.22.0"
-  checksum: c75731b35a59a83f0204c09d71e5e407415b8f3fcbb525fd248862c9b4d64636744bd1ebbbb6804c0bc83b2dbbcf5e03870f40cb33beccc4bf94ebc42df5d58d
+"@types/cheerio@npm:^0.22.31":
+  version: 0.22.31
+  resolution: "@types/cheerio@npm:0.22.31"
+  dependencies:
+    "@types/node": "*"
+  checksum: 8d73d22fdd384c290514dad6f9f4a436f5a90bc836bbe9b46fe4f557041a03484f0547291d0347185a806149f465355fc225dc87477b8cf5af5be307bb75e6a4
   languageName: node
   linkType: hard
 
@@ -2737,7 +2739,7 @@ __metadata:
     "@apteryxxyz/html-translator": ^1.2.2
     "@discordjs/builders": ^1.2.0
     "@maclary/context": ^0.1.2
-    "@types/cheerio": 0.22.0
+    "@types/cheerio": ^0.22.31
     "@types/fs-extra": ^9.0.13
     "@types/node-schedule": ^2.1.0
     "@typescript-eslint/eslint-plugin": ^5.38.0

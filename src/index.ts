@@ -3,6 +3,7 @@ process.env.MACLARY_ENV = process.env.NODE_ENV;
 import { MaclaryClient, container } from 'maclary';
 import { ActivityType, Partials } from 'discord.js';
 import Loggr from 'cat-loggr/ts';
+import GroupManager from '@groups/Manager';
 import Scraper from './Scraper';
 
 const client = new MaclaryClient({
@@ -23,16 +24,19 @@ const client = new MaclaryClient({
 });
 
 container.client = client;
+container.groups = new GroupManager();
 container.scraper = new Scraper();
 
 const token = process.env.DISCORD_TOKEN as string;
 void container.client.login(token);
 void container.scraper.setup();
+void container.groups.initialise();
 
 export default container;
 
 declare module 'maclary' {
     export interface Container {
         scraper: Scraper;
+        groups: GroupManager;
     }
 }
