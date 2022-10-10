@@ -5,7 +5,6 @@ import {
     ButtonStyle,
     CategoryChannel,
     Snowflake,
-    TextChannel,
 } from 'discord.js';
 import { container } from 'maclary';
 import { resolve as pathResolve } from 'node:path';
@@ -31,14 +30,16 @@ export default class GroupManager {
     public async initialise() {
         this._groups = await Database.getGroups();
 
-        container.client.on('ready', async c => {
-            const channel = (await c.channels.fetch(CreatorId)) as TextChannel;
+        container.client.on('ready', async cl => {
+            setTimeout(async () => {
+                const ch = await cl.channels.fetch(CreatorId);
 
-            if (channel) {
-                await channel.bulkDelete(10);
-                const options = this._makeExplainMessage();
-                await channel.send(options);
-            }
+                if (ch && ch.isTextBased() && !ch.isDMBased()) {
+                    await ch.bulkDelete(10);
+                    const options = this._makeExplainMessage();
+                    await ch.send(options);
+                }
+            }, 10000);
         });
     }
 
