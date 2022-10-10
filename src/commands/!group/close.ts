@@ -22,7 +22,10 @@ export default class Close extends Command {
             );
         }
 
-        await interaction.reply('Closing group, please wait while a transcript is generated...');
+        await interaction.reply(
+            'Closing this group, please wait while a transcript is generated, ' +
+                'once done, it will be sent to all group members...'
+        );
         await container.groups.closeGroup(group);
     }
 }
