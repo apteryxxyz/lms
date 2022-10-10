@@ -1,11 +1,21 @@
-import { AttachmentBuilder, CategoryChannel, Snowflake } from 'discord.js';
+import {
+    ApplicationCommand,
+    ApplicationCommandManager,
+    AttachmentBuilder,
+    ButtonStyle,
+    CategoryChannel,
+    Snowflake,
+    TextChannel,
+} from 'discord.js';
 import { container } from 'maclary';
 import { resolve as pathResolve } from 'node:path';
 import { execSync as cpExec } from 'node:child_process';
 import Database from './Database';
 import Group, { JoinStatus } from './Group';
+import { ActionRowBuilder, ButtonBuilder, channelMention, EmbedBuilder } from '@discordjs/builders';
 
 const CategoryId = process.env.GROUPS_CATEGORY_ID as string;
+const CreatorId = process.env.GROUPS_CREATOR_ID as string;
 
 export interface CreateGroupOptions {
     name: string;
@@ -20,6 +30,16 @@ export default class GroupManager {
     /** Initialise all the existing groups */
     public async initialise() {
         this._groups = await Database.getGroups();
+
+        container.client.on('ready', async c => {
+            const channel = (await c.channels.fetch(CreatorId)) as TextChannel;
+
+            if (channel) {
+                await channel.bulkDelete(10);
+                const options = this._makeExplainMessage();
+                await channel.send(options);
+            }
+        });
     }
 
     /** Sync memory and JSON */
@@ -102,5 +122,61 @@ export default class GroupManager {
         group.finishedAt = Date.now();
         this.save();
         return group;
+    }
+
+    private _makeExplainMessage() {
+        const commands = container.client.commands.application
+            ?.commands as ApplicationCommandManager;
+        const command = commands.cache.find(c => c.name === 'group') as ApplicationCommand;
+        const group = (name: string) => `</group ${name}:${command.id}>`;
+
+        const embed = new EmbedBuilder()
+            .setTitle('Groups')
+            .setImage('https://rollerresearch.files.wordpress.com/2019/08/group-discussion.jpg')
+            .setColor(0xffffff)
+            .setTimestamp()
+            .addFields([
+                {
+                    name: 'How to create a group',
+                    value:
+                        'It is as simple as clicking the create button below! Upon clicking a form ' +
+                        'will appear where you can enter your new groups details, including:\n' +
+                        ' • The name you want your group to have.\n' +
+                        ' • A group description, which can contain information such as what assignment the group is for.\n' +
+                        ' • Member limit of the group.\n' +
+                        ' • And finally the group join status, this can either be \n' +
+                        " - 'a' for anyone can join\n" +
+                        " - 'i' is for invite only, anyone can request to join\n" +
+                        " - 'c' for closed, no one can join\n",
+                },
+                {
+                    name: 'Upon group creation',
+                    value:
+                        'A text channel and a voice channel will be created. In your group channel ' +
+                        'then be a message explaining the commands you can use to manage your group.',
+                },
+                {
+                    name: 'Join an existing group',
+                    value:
+                        `Head over to ${channelMention(CreatorId)} to see the currently opened ` +
+                        'groups. Find one that is suitable and click join. Alternatively another ' +
+                        'member of the group can manually add you.',
+                },
+                {
+                    name: 'How to leave a group',
+                    value:
+                        `Inside of the group channel, use the command ${group('leave')}. ` +
+                        'Alternatively a group member can remove you from the group.',
+                },
+            ]);
+
+        const row = new ActionRowBuilder<ButtonBuilder>().setComponents([
+            new ButtonBuilder()
+                .setLabel('Create A Group')
+                .setCustomId('groups,create')
+                .setStyle(ButtonStyle.Primary),
+        ]);
+
+        return { embeds: [embed], components: [row] };
     }
 }

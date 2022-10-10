@@ -7,10 +7,7 @@ import {
     CategoryCreateChannelOptions,
     ChannelType,
     Interaction,
-    If,
     Message,
-    MessageEditOptions,
-    MessageOptions,
     OverwriteData,
     OverwriteType,
     PermissionFlagsBits,
@@ -256,11 +253,11 @@ export default class Group {
     /** Update the groups joiner and welcome messages */
     public async updateMessages() {
         const joinerMessage = await this.getJoinerMessage();
-        const joinerOptions = await this._makeJoinerMessageOptions<true>();
+        const joinerOptions = await this._makeJoinerMessageOptions();
         await joinerMessage.edit(joinerOptions);
 
         const welcomeMessage = await this.getWelcomeMessage();
-        const welcomeOptions = await this._makeWelcomeMessageOptions<true>();
+        const welcomeOptions = await this._makeWelcomeMessageOptions();
         await welcomeMessage.edit(welcomeOptions);
     }
 
@@ -394,7 +391,7 @@ export default class Group {
         ];
     }
 
-    private async _makeJoinerMessageOptions<Edit extends boolean = false>() {
+    private async _makeJoinerMessageOptions() {
         const manager = await this.getManager();
         const members = await this.getMembers();
 
@@ -436,13 +433,10 @@ export default class Group {
                 },
             ]);
 
-        return {
-            embeds: [embed],
-            components: [row],
-        } as unknown as If<Edit, MessageEditOptions, MessageOptions>;
+        return { embeds: [embed], components: [row] };
     }
 
-    private async _makeWelcomeMessageOptions<Edit extends boolean = false>() {
+    private async _makeWelcomeMessageOptions() {
         const commands = container.client.commands.application
             ?.commands as ApplicationCommandManager;
         const command = commands.cache.find(c => c.name === 'group') as ApplicationCommand;
@@ -486,7 +480,7 @@ export default class Group {
                 },
             ]);
 
-        return { embeds: [embed] } as unknown as If<Edit, MessageEditOptions, MessageOptions>;
+        return { embeds: [embed] };
     }
 
     private async _makeRequestMessageOptions(user: User, message: string) {
@@ -510,9 +504,6 @@ export default class Group {
                 .setStyle(ButtonStyle.Danger),
         ]);
 
-        return {
-            embeds: [embed],
-            components: [row],
-        } as MessageOptions;
+        return { embeds: [embed], components: [row] };
     }
 }
