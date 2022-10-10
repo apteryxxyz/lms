@@ -77,7 +77,7 @@ export default class Threads extends Base {
         const title = $('h1').first().text();
         const author = $('.forumpost__username').first().text().trim();
         const when = $('.forumpost__datetime').first().text().trim();
-        const body = $('.post-content-container').first().html();
+        const body = $('.post-content-container').first().html() as string;
         const sentAt = Util.getTimeAgo(when);
 
         const { markdown, images } = h2m(body);
