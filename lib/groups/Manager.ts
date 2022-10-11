@@ -39,7 +39,7 @@ export default class GroupManager {
                     const options = this._makeExplainMessage();
                     await ch.send(options);
                 }
-            }, 10000);
+            }, 20000);
         });
     }
 
