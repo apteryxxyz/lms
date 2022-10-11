@@ -12,4 +12,5 @@ services:
       - ./cache:/app/cache
       - ./assets:/app/assets
       - ./data:/app/data
+      - ./output:/app/output
     restart: always
