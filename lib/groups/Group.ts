@@ -399,7 +399,8 @@ export default class Group {
         const isInviteOnly = this.joinStatus === JoinStatus.InviteOnly;
         const isClosed = this.joinStatus === JoinStatus.Closed;
 
-        const availableSpots = isClosed ? 0 : this.memberLimit - (members.length + 1);
+        let availableSpots = isClosed ? 0 : this.memberLimit - (members.length + 1);
+        if (availableSpots < 0) availableSpots = 0;
         const isFull = availableSpots === 0 || members.length + 1 === this.memberLimit;
 
         const row = new ActionRowBuilder<ButtonBuilder>().setComponents([
