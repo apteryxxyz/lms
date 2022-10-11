@@ -5,8 +5,9 @@ import { Events } from '../Scraper';
 import type { Group, Message } from '@scraper/uponline/Messages';
 import Util from '@scraper/Util';
 
-const ChannelID = process.env.MESSAGE_ID as string;
-const MentionID = process.env.MENTION_ID as string;
+const ChannelId = process.env.MESSAGES_CHANNEL_ID as string;
+const MentionId = process.env.ROLE_MENTION_ID as string;
+const MenitonRole = process.env.MENTION_MESSAGES === 'true';
 
 export default class GroupMessage extends Event {
     public constructor() {
@@ -18,7 +19,7 @@ export default class GroupMessage extends Event {
     }
 
     public override async handle(group: Group, message: Message): Promise<any> {
-        const channel = await container.client.channels.fetch(ChannelID);
+        const channel = await container.client.channels.fetch(ChannelId);
         const header = `Sent by ${message.author} in ${group.name}`;
 
         const embed = new EmbedBuilder()
@@ -27,7 +28,7 @@ export default class GroupMessage extends Event {
             .setTimestamp(message.sentAt);
 
         return (channel as GuildTextBasedChannel).send({
-            content: process.env.MENTION_MESSAGES === 'true' ? `<@&${MentionID}>` : null,
+            content: MenitonRole ? `<@&${MentionId}>` : null,
             embeds: [embed],
         });
     }

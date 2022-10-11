@@ -1,5 +1,4 @@
 import { Command } from 'maclary';
-import { Context } from '@maclary/context';
 import { EmbedBuilder } from '@discordjs/builders';
 import fs from 'fs';
 
@@ -10,7 +9,7 @@ export default class Search extends Command {
     public constructor() {
         super({
             type: Command.Type.ChatInput,
-            kinds: [Command.Kind.Prefix, Command.Kind.Slash],
+            kinds: [Command.Kind.Slash],
             name: 'search',
             description: 'Search for a C++ item on cppreference.',
             options: [
@@ -25,20 +24,12 @@ export default class Search extends Command {
     }
 
     public override async onChatInput(interaction: Command.ChatInput): Promise<void> {
-        const query = interaction.options.getString('query', true);
-        return this.sharedRun(new Context(interaction), query);
-    }
-
-    public override async onMessage(
-        message: Command.Message,
-        args: Command.Arguments
-    ): Promise<void> {
-        const query = args.rest();
-        return this.sharedRun(new Context(message), query);
-    }
-
-    public async sharedRun(context: Context, query: string): Promise<void> {
-        query = query.toLowerCase().replace(/std/g, '').replace(/::/g, ' ').replace(/\//g, ' ');
+        const query = interaction.options
+            .getString('query', true)
+            .toLowerCase()
+            .replace(/std/g, '')
+            .replace(/::/g, ' ')
+            .replace(/\//g, ' ');
 
         const rawLang = Language.map(l => (l.includes(query) ? l.split(' ') : null))
             .filter(l => l !== null)
@@ -53,9 +44,9 @@ export default class Search extends Command {
             l => `[\`(${l[0]}) std::${l.slice(1).join('::')}\`](${makeUrl(l)})`
         );
 
-        const searchUrl = `https://en.cppreference.com/mwiki/index.php?title=Special%3ASearch&search=${encodeURI(
-            query
-        )}`;
+        const searchUrl =
+            'https://en.cppreference.com/mwiki/index.php?title=Special%3ASearch' +
+            `&search=${encodeURI(query)}`;
 
         const embed = new EmbedBuilder()
             .setTitle(`C++ Search Results for **\`${query}\`**`)
@@ -72,6 +63,6 @@ export default class Search extends Command {
                 },
             ]);
 
-        context.reply({ embeds: [embed] });
+        interaction.reply({ embeds: [embed] });
     }
 }

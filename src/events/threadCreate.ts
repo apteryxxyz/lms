@@ -6,8 +6,9 @@ import type { Forum } from '@scraper/uponline/Forums';
 import type { Thread } from '@scraper/uponline/Threads';
 import Util from '@scraper/Util';
 
-const ChannelID = process.env.THREAD_ID as string;
-const MentionID = process.env.MENTION_ID as string;
+const ChannelId = process.env.THREADS_CHANNEL_ID as string;
+const MentionId = process.env.ROLE_MENTION_ID as string;
+const MentionRole = process.env.MENTION_THREADS === 'true';
 
 export default class ThreadCreate extends Event {
     public constructor() {
@@ -19,7 +20,7 @@ export default class ThreadCreate extends Event {
     }
 
     public override async handle(forum: Forum, thread: Thread): Promise<any> {
-        const channel = (await container.client.channels.fetch(ChannelID)) as GuildTextBasedChannel;
+        const channel = (await container.client.channels.fetch(ChannelId)) as GuildTextBasedChannel;
         const url = `https://online.yoobee.ac.nz/mod/forum/discuss.php?d=${thread.id}`;
         const header = `Sent by ${thread.author} in ${forum.module}, ${forum.name}`;
         const files = thread.images.map(({ base64 }, i) => {
@@ -49,7 +50,7 @@ export default class ThreadCreate extends Event {
         return channel
             .send({
                 embeds: [embed],
-                content: process.env.MENTION_THREADS === 'true' ? `<@&${MentionID}>` : null,
+                content: MentionRole ? `<@&${MentionId}>` : null,
                 files: firstFiles,
                 components: [actionRow],
             })
