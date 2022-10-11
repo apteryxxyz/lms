@@ -32,6 +32,7 @@ export default class Leave extends Command {
         }
 
         const user = interaction.options.getUser('user', true);
+        if (user.bot) return void interaction.reply('Cannot transfer group ownership to a bot.');
         if (!group.isMember(user.id))
             return void interaction.reply('User is not a member of this group.');
 

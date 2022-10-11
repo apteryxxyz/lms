@@ -24,6 +24,7 @@ export default class Add extends Command {
         if (!group) return void interaction.reply('This command must be run in a group.');
 
         const user = interaction.options.getUser('user', true);
+        if (user.bot) return void interaction.reply('Cannot add bots to groups.');
         if (group.isManager(user.id) || group.isMember(user.id))
             return void interaction.reply('User is already a member of this group.');
 
