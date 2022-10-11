@@ -2,6 +2,16 @@
 FROM node:18-alpine
 WORKDIR /app
 
+# Install dotnet
+RUN apk add \
+    bash \
+    icu-libs \
+    krb5-libs \
+    libgcc \
+    libintl \
+    libssl1.1 \
+    libstdc++ zlib
+
 # Install chromium
 RUN apk add --no-cache \
     chromium \
