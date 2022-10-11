@@ -79,7 +79,7 @@ export default class GroupManager {
         managerId: Snowflake,
         { name, description, joinStatus, memberLimit }: CreateGroupOptions
     ) {
-        const id = this._groups.length;
+        const id = this._groups.length++;
 
         const groupData = { id, managerId, name, description, joinStatus, memberLimit };
         const group = new Group(groupData);
