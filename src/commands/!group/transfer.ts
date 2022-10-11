@@ -21,20 +21,33 @@ export default class Leave extends Command {
     public override async onChatInput(interaction: Command.ChatInput): Promise<void> {
         const groupList = container.groups.getGroups();
         const group = groupList.find(g => g.textId === interaction.channelId);
-        if (!group) return void interaction.reply('This command must be run in a group.');
+        if (!group)
+            return void interaction.reply({
+                ephemeral: true,
+                content: 'This command must be run in a group.',
+            });
 
         if (!group.isManager(interaction.user.id)) {
             const manager = await group.getManager();
-            return void interaction.reply(
-                'Only the manager can transfer ownership of ' +
-                    `the group, try asking ${manager.user.tag}`
-            );
+            return void interaction.reply({
+                ephemeral: true,
+                content:
+                    'Only the manager can transfer ownership of ' +
+                    `the group, try asking ${manager.user.tag}`,
+            });
         }
 
         const user = interaction.options.getUser('user', true);
-        if (user.bot) return void interaction.reply('Cannot transfer group ownership to a bot.');
+        if (user.bot)
+            return void interaction.reply({
+                ephemeral: true,
+                content: 'Cannot transfer group ownership to a bot.',
+            });
         if (!group.isMember(user.id))
-            return void interaction.reply('User is not a member of this group.');
+            return void interaction.reply({
+                ephemeral: true,
+                content: 'User is not a member of this group.',
+            });
 
         return group.setManager(user.id, interaction);
     }

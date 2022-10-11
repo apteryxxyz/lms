@@ -22,7 +22,11 @@ export default class Name extends Command {
     public override async onChatInput(interaction: Command.ChatInput): Promise<void> {
         const groupList = container.groups.getGroups();
         const group = groupList.find(g => g.textId === interaction.channelId);
-        if (!group) return void interaction.reply('This command must be run in a group.');
+        if (!group)
+            return void interaction.reply({
+                ephemeral: true,
+                content: 'This command must be run in a group.',
+            });
 
         const name = interaction.options.getString('name', true);
         void group.setName(name);

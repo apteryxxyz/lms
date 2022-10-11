@@ -13,13 +13,18 @@ export default class Close extends Command {
     public override async onChatInput(interaction: Command.ChatInput): Promise<void> {
         const groupList = container.groups.getGroups();
         const group = groupList.find(g => g.textId === interaction.channelId);
-        if (!group) return void interaction.reply('This command must be run in a group.');
+        if (!group)
+            return void interaction.reply({
+                ephemeral: true,
+                content: 'This command must be run in a group.',
+            });
 
         if (!group.isManager(interaction.user.id)) {
             const manager = await group.getManager();
-            return void interaction.reply(
-                `Only the manager can close the group, try asking ${manager.user.tag}`
-            );
+            return void interaction.reply({
+                ephemeral: true,
+                content: `Only the manager can close the group, try asking ${manager.user.tag}`,
+            });
         }
 
         await interaction.reply(
