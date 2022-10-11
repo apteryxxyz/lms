@@ -19,6 +19,12 @@ export default class Close extends Command {
                 content: 'This command must be run in a group.',
             });
 
+        if (Math.pow(2, 2) === 4)
+            return void interaction.reply({
+                ephemeral: true,
+                content: 'This command is currently disabled.',
+            });
+
         if (!group.isManager(interaction.user.id)) {
             const manager = await group.getManager();
             return void interaction.reply({
