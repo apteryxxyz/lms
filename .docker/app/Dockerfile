@@ -3,6 +3,8 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Install dotnet
+RUN sudo chmod +x ./scripts/dotnet-install.sh
+RUN ./scripts/dotnet-install.sh -c Current
 RUN apk add \
     bash \
     icu-libs \
