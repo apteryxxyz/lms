@@ -154,7 +154,7 @@ export default class GroupManager {
                     name: 'Upon group creation',
                     value:
                         'A text channel and a voice channel will be created. In your group channel ' +
-                        'then be a message explaining the commands you can use to manage your group.',
+                        'there will be a message explaining the commands you can use to manage your group.',
                 },
                 {
                     name: 'Join an existing group',
