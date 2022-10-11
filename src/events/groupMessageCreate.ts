@@ -28,7 +28,7 @@ export default class GroupMessage extends Event {
             .setTimestamp(message.sentAt);
 
         return (channel as GuildTextBasedChannel).send({
-            content: MenitonRole ? `<@&${MentionId}>` : null,
+            content: MenitonRole ? `<@&${MentionId}>` : undefined,
             embeds: [embed],
         });
     }

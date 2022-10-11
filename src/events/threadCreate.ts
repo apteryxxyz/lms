@@ -50,7 +50,7 @@ export default class ThreadCreate extends Event {
         return channel
             .send({
                 embeds: [embed],
-                content: MentionRole ? `<@&${MentionId}>` : null,
+                content: MentionRole ? `<@&${MentionId}>` : undefined,
                 files: firstFiles,
                 components: [actionRow],
             })
