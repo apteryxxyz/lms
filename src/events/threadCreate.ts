@@ -23,10 +23,10 @@ export default class ThreadCreate extends Event {
         const channel = (await container.client.channels.fetch(ChannelId)) as GuildTextBasedChannel;
         const url = `https://online.yoobee.ac.nz/mod/forum/discuss.php?d=${thread.id}`;
         const header = `Sent by ${thread.author} in ${forum.module}, ${forum.name}`;
-        const files = thread.images.map(({ base64 }, i) => {
+        const files = thread.images.map(({ src, base64 }) => {
             const buff = Buffer.from(base64.split(',')[1], 'base64');
-            const ext = base64.substring('data:image/'.length, base64.indexOf(';base64'));
-            return new AttachmentBuilder(buff).setName(`${i}.${ext}`);
+            const name = src.split('/').at(-1) as string;
+            return new AttachmentBuilder(buff).setName(name);
         });
 
         let description = thread.content;

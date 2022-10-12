@@ -104,7 +104,7 @@ export default class Scraper extends EventEmitter {
 
         if (!newMessages.length) return;
         messages.log(`${newMessages.length} new messages in ${group.name}`);
-        await Database.saveMessages(group, gmMessages);
+        void Database.saveMessages(group, gmMessages);
 
         // Send the events for each new message
         for (const msg of newMessages) {
@@ -147,14 +147,14 @@ export default class Scraper extends EventEmitter {
 
         if (!newThreads.length) return [];
         forums.log(`${newThreads.length} new threads in ${forum.name}`);
-        await Database.saveForumThreads(forum, partialThreads);
+        void Database.saveForumThreads(forum, partialThreads);
 
         // Go to each new thread and get its content
         const fullThreads = [];
         for (const partialThread of newThreads) {
             await threads.goToThread(partialThread);
             const thread = await threads.getThreadContent();
-            await Database.saveThreadContent(thread);
+            void Database.saveThreadContent(thread);
             fullThreads.push({ ...thread, forum });
         }
 
