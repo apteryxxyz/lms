@@ -5,7 +5,6 @@ services:
     container_name: lms-scraper
     build:
       context: ./
-      dockerfile: ./.docker/app/Dockerfile
     env_file:
       - .env
     volumes:

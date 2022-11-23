@@ -13,7 +13,8 @@
         "format": "prettier src lib *.json --write",
         "build": "rimraf build && tsc && tsc-alias",
         "dev": "ts-node -r tsconfig-paths/register src/index.ts",
-        "start": "node ."
+        "start": "node .",
+        "docker:up": "docker compose up -d --build"
     },
     "dependencies": {
         "@apteryxxyz/html-translator": "^1.2.2",
