@@ -14,7 +14,7 @@
         "build": "rimraf build && tsc && tsc-alias",
         "dev": "ts-node -r tsconfig-paths/register src/index.ts",
         "start": "node .",
-        "docker:up": "docker compose up -d --build"
+        "docker:start": "docker compose up -d --build"
     },
     "dependencies": {
         "@apteryxxyz/html-translator": "^1.2.2",

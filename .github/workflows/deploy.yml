@@ -27,4 +27,4 @@ jobs:
           script: |
             cd $PROJECT_PATH
             git reset --hard HEAD && git pull
-            npm run docker:up
+            npm run docker:start

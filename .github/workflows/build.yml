@@ -10,18 +10,22 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Setep PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          registry-url: https://registry.npmjs.org/
-          cache: 'yarn'
-          cache-dependency-path: yarn.lock
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn --immutable
+        run: pnpm install
 
-      - name: Build
-        run: yarn build
+      - name: Build project
+        run: pnpm build
