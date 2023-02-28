@@ -65,22 +65,22 @@ importers:
   apps/bot:
     specifiers:
       '@discordjs/builders': ^1.4.0
-      '@maclary/context': 3.0.1-next.5dc3bf0.0
+      '@maclary/context': 3.0.1
       '@yoobee/scraper': workspace:^0.0.0
       cat-loggr: ^1.2.2
       discord.js: ^14.7.1
       dotenv: ^16.0.3
       enhanced-ms: ^2.2.0
-      maclary: 1.0.1-next.e6ed1de.0
+      maclary: 1.0.1
     dependencies:
       '@discordjs/builders': 1.4.0
-      '@maclary/context': 3.0.1-next.5dc3bf0.0_discord.js@14.7.1
+      '@maclary/context': 3.0.1_discord.js@14.7.1
       '@yoobee/scraper': link:../../packages/scraper
       cat-loggr: 1.2.2
       discord.js: 14.7.1
       dotenv: 16.0.3
       enhanced-ms: 2.2.0
-      maclary: 1.0.1-next.e6ed1de.0_discord.js@14.7.1
+      maclary: 1.0.1_discord.js@14.7.1
 
   packages/scraper:
     specifiers:
@@ -667,8 +667,8 @@ packages:
       - supports-color
     dev: true
 
-  /@maclary/context/3.0.1-next.5dc3bf0.0_discord.js@14.7.1:
-    resolution: {integrity: sha512-txLn6p8Z7atx9b+fsJ9f4x5xJb5bbRT56ODNeh5TAbgovgewCYeSogJhfk6O8jk8KQRAjr8+9Zb585n97wsgCQ==}
+  /@maclary/context/3.0.1_discord.js@14.7.1:
+    resolution: {integrity: sha512-hAuh1rHcCffSBx63fNusi1BUM6uIlCRUSM6uii+sMZin1M9BiSDcWLgcRcCU5ScbLLIWcguo/XQHvJRMgZ/gTQ==}
     peerDependencies:
       discord.js: '>=14.0.0'
     dependencies:
@@ -4381,8 +4381,8 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /maclary/1.0.1-next.e6ed1de.0_discord.js@14.7.1:
-    resolution: {integrity: sha512-AR2sbNyY9pLWqEq7dnVA/OGZ81H5/RQWcTteT6kh0L2qcG+bjDWj0MFbCQYw/K9GtrXckVyKO9SDHGop+MPZNA==}
+  /maclary/1.0.1_discord.js@14.7.1:
+    resolution: {integrity: sha512-VcHSMnIF5dsbxwNZzEdsXaY3DeUGFMfdCDaVZF/FK1h7r/R3DlyQ/vqdHC9riLLy2CtGfQOAO9mpYlmYy+phyw==}
     peerDependencies:
       discord.js: '>=14.7.0'
     dependencies:
