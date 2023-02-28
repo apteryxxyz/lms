@@ -1,5 +1,6 @@
 import { Base } from '../Base';
 import type { Uponline } from './Uponline';
+import * as Utilities from '~/Utilities';
 
 export interface Category {
     /** ID of this categories element. */
@@ -174,7 +175,7 @@ export class Messages extends Base {
         if (!button) throw new Error('Could not find conversation button');
 
         await button.click();
-        await this.page.waitForNetworkIdle();
+        await Utilities.sleepSeconds(10);
     }
 
     /** Close the currently opened conversation. */
