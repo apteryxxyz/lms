@@ -20,7 +20,7 @@ const discord = new Discord({
 });
 const maclary = new Maclary({
     defaultPrefix: '!',
-    guildId: '990277337352372254',
+    guildId: process.env['GUILD_ID']!,
 });
 Maclary.init(maclary, discord);
 
