@@ -1,45 +1,4 @@
 {
-    // Mapped from https://www.typescriptlang.org/tsconfig
-    "compilerOptions": {
-        // Type Checking
-        "allowUnreachableCode": false,
-        "allowUnusedLabels": false,
-        "exactOptionalPropertyTypes": false,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitOverride": true,
-        "noImplicitReturns": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "strict": true,
-        "useUnknownInCatchVariables": true,
-        "skipLibCheck": true,
-        // // Modules
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "baseUrl": ".",
-        "paths": {
-            "@scraper/*": ["./lib/scraper/*"],
-            "@groups/*": ["./lib/groups/*"]
-        },
-        // Emit
-        "declaration": true,
-        "importHelpers": true,
-        "importsNotUsedAsValues": "error",
-        "newLine": "lf",
-        "noEmitHelpers": true,
-        "outDir": "./build",
-        "preserveConstEnums": true,
-        "removeComments": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        // Language and Environment
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "lib": ["ESNext", "DOM"],
-        "target": "ES2021",
-        "useDefineForClassFields": false
-    },
-    "include": ["./src/**/*.ts", "./lib/**/*.ts"],
-    "exclude": ["./node_modules/", "./dist/", "./**/_*/"]
+    "extends": "ts-config-apteryx",
+    "exclude": ["node_modules"]
 }

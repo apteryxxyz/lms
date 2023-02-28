@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Secrets
+.env
+cookies.json
+
+# Build
+dist/
+
+# Data
+data/

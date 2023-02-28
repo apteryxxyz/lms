@@ -1,24 +1,2 @@
 # Node
 node_modules/
-package-lock.json
-
-# Secrets
-.env
-
-# Data
-cache/
-data/
-output/
-
-# Builds
-build/
-*.png
-
-# Yarn
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
