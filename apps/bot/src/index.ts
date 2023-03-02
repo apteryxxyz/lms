@@ -2,7 +2,12 @@ import 'dotenv/config';
 import * as process from 'node:process';
 import { Scraper } from '@yoobee/scraper';
 import CatLoggr from 'cat-loggr/ts';
-import { Client as Discord, GatewayIntentBits, Partials } from 'discord.js';
+import {
+    ActivityType,
+    Client as Discord,
+    GatewayIntentBits,
+    Partials,
+} from 'discord.js';
 import type { ConsoleLike } from 'maclary';
 import { Maclary, container } from 'maclary';
 
@@ -17,6 +22,14 @@ const discord = new Discord({
         GatewayIntentBits.DirectMessages,
     ],
     partials: [Partials.Channel],
+    presence: {
+        activities: [
+            {
+                type: ActivityType.Watching,
+                name: 'for new messages',
+            },
+        ],
+    },
 });
 const maclary = new Maclary({
     defaultPrefix: '!',
