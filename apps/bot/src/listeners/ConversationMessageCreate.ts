@@ -19,7 +19,8 @@ export class OnConversationMessageCreate extends Listener<any> {
         const channel = await container.client.channels.fetch(ChannelId);
         if (!channel || !('send' in channel)) return;
 
-        const content = Utilities.cleanString(message.content);
+        let content = Utilities.cleanString(message.content);
+        if (content.length > 2_048) content = content.slice(0, 2_045) + '...';
 
         const embed = new EmbedBuilder()
             .setTitle(message.author)
